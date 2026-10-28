@@ -1,0 +1,1095 @@
+\section{The multiplication table problem}
+    \label{sec:multiplication-table-problem}
+
+Recall that the multiplication table problem asks for the order of magnitude of
+\begin{equation*}
+    M(N) = \# \set{ ab}{ a, b \in [N]}.
+\end{equation*}
+This is intimately related to the problem of estimating the proportion of integers with a divisor in a given interval. 
+For any positive integer $n$, let $\tau(n, y, z)$ denote the number of divisors of $n$ in the interval $(y, z]$, and let
+\begin{equation*}
+    H(x, y, z) = \#\set{ n \le x}{\tau(n, y, z) \ge 1}
+\end{equation*}
+be the number of integers $n \le x$ that have a divisor in $(y, z]$.
+
+The study of the special case $z = 2y$ was initiated by Besicovitch \cite{besicovitch} in the 1930s, and estimates for $H(x, y, 2y)$ were given by Erd\H{o}s \cite{anasymptoticinequality} and Tenenbaum \cite{tenenbaumsurlaprobabilite}.
+In the seminal paper \cite{thedistributionofintegers}, Kevin Ford determined the order of magnitude of $H(x, y, z)$ for all values of $x, y, z$.
+In this dissertation, we will focus on the case $z = 2y$, which is relevant for the multiplication table problem.
+
+\begin{theorem}[{\cite[Theorem 1]{thedistributionofintegers}}] \label{thm:integers-with-a-divisor-in-y-2y}
+    Let $x > 0$. 
+    We have, uniformly for all $3 \le y \le \sqrt{x}$,
+    \begin{equation*}
+        H(x, y, 2y) \asymp \frac{x}{(\log y)^\delta (\log \log y)^{3/2}},
+    \end{equation*}
+    where $\delta = 1 - (1 + \log \log 2) / \log 2 \approx 0.086071$.
+\end{theorem} 
+Note that the conclusion of the theorem is trivial if $y \le y_0$ for some fixed constant $y_0$.
+Indeed, in this case, if $a$ is any integer in $(y, 2y]$, then the number of multiples of $a$ in $[1, x]$ is $\asymp x$.
+Henceforth, we always assume that $y$ is large.
+
+We first show how Theorem \ref{thm:multiplication-table-problem}, which is restated here, follows from the above result.
+\begingroup
+\def\thedefinition{\ref*{thm:multiplication-table-problem}}
+\begin{theorem}
+    We have
+    \begin{equation*}
+        M(N)  \asymp \frac{N^2}{(\log N)^\delta (\log \log N)^{3/2}}.
+    \end{equation*}
+\end{theorem}
+\addtocounter{definition}{-1}
+\endgroup
+
+\begin{proof}
+    For the lower bound, observe that if an integer $n \le N^2 / 4$ has a divisor in $(N/4, N/2]$, it is counted by $M(N)$. 
+    Hence, 
+    \begin{equation*}
+        M(N) \ge H\left( \frac{N^2}{4}, \frac{N}{4}, \frac{N}{2} \right) \gg \frac{N^2}{(\log N)^\delta (\log \log N)^{3/2}}.
+    \end{equation*}
+
+    For the upper bound, suppose that $n = m_1 m_2$ with $m_1, m_2 \le N$. 
+    Then $m_1 \in (2^{-k-1} N, 2^{-k}N]$ for some integer $k \ge 0$, and so $n \le 2^{-k} N^2$.
+    This gives
+    \begin{equation*}
+        M(N) \le \sum \limits_{k \ge 0} H \left(\frac{N^2}{2^k}, \frac{N}{2^{k + 1}}, \frac{N}{2^k} \right).
+    \end{equation*}
+    By Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, the contribution from $k$ with $N/2^{k} \ge \sqrt{N}$ (say) is 
+    \begin{equation*}
+        \ll \left( \sum \limits_{k} \frac{N^2}{2^k} \right) \frac{1}{(\log N)^\delta (\log \log N)^{3/2}} \ll \frac{N^2}{(\log N)^\delta (\log \log N)^{3/2}},
+    \end{equation*}
+    since $\log (N/2^{k + 1}) \asymp \log N$ in this range.
+    For the contribution from $k$ with $N/2^{k} < \sqrt{N}$, we can use the crude bound 
+    \begin{equation*}
+        H\left(\frac{N^2}{2^{k}}, \frac{N}{2^{k + 1}}, \frac{N}{2^{k}} \right) \le \frac{N^2}{2^{k}} \ll N^{3/2}.
+    \end{equation*}
+    Summing over $\frac{\log N}{2\log 2} < k \le \frac{2\log N }{\log 2}$, this gives a total contribution of $\ll N^{3/2} \log N$, which is negligible compared to the main term.
+\end{proof}
+
+When studying $H(x, y, z)$, a simple idea one might have is to write down the inequality
+\begin{equation} \label{eq:trivial-upper-bound-sum}
+    H(x, y, z) \le \sum \limits_{n \le x} \tau(n, y, z).
+\end{equation}
+By double counting, 
+\begin{equation*}
+    \sum \limits_{n \le x} \tau(n, y,z) = \sum \limits_{y < d \le z} \lflr \frac{x}{d} \rflr  = x \sum \limits_{y < d \le z} \frac{1}{d} + O(z) = x \log \left( \frac{z}{y} \right) + O(z).
+\end{equation*}
+In the range $z \asymp y$, this is useless, as it only gives an upper bound of $\ll x$.
+However, when $z$ is close to $y$, very few integers have more than one divisor in $(y, z]$, and so the inequality \eqref{eq:trivial-upper-bound-sum} leads to a sharp bound.
+For details, we refer the reader to \cite[Chapter 2]{divisors}.
+% Intuitively speaking, the case where $z$ is close to $y$ is easier, as divisibility conditions by distinct $d, d' \in (y, z]$ are relatively independent, with $\gcd(d, d')$ being small in most cases.
+% When $z \asymp y$, they exhibit more complicated dependences.
+
+The remainder of this chapter is devoted to discussing Ford's proof of Theorem \ref{thm:integers-with-a-divisor-in-y-2y}.
+The presentation mainly follows \cite{integerswithadivisor} and the lecture notes \cite{fordlecturenotes}.
+The proof techniques are elementary and combinatorial in nature, although the details can be complicated. 
+In the next section, we start by giving a heuristic argument for the theorem that explains some of the key ideas behind the proof.
+
+\begin{remark}
+    Similarly to the prime factorisation of integers, permutations possess a unique decomposition into cycles, and there is a well-known analogy between divisors of integers and fixed sets of permutations (cf. \cite{arratiabarbourtavare}).
+    Roughly speaking, a fixed set of size $k$ corresponds to a divisor of an integer in the range $(e^k, e^{k + 1}]$.
+    
+    To make the connection clearer, let $C_j(\sigma)$ denote the number of cycles of length $j$ in a permutation $\sigma$.
+    For integers $c_1, \dots, c_n \ge 0$ with $c_1 + 2c_2 + \dots + nc_n = n$, Cauchy's formula (see, e.g., \cite[Prop. 1.3.2]{enumerativecombinatorics}) states that the probability that a uniformly random permutation $\sigma \in S_n$ satisfies $C_j(\sigma) = c_j$ for all $j \in [n]$ is given by
+    \begin{equation*}
+        \prod \limits_{j = 1}^n \frac{1}{c_j!} \left( \frac{1}{j} \right)^{c_j}.
+    \end{equation*}
+    This suggests that the quantities $C_j(\sigma)$ behave roughly like independent Poisson variables with mean $1/j$.
+    Analogously, recall from Section \ref{subsec:kubilius-model} that if $n$ is a random integer, we expect the number of prime factors in $(e^j, e^{j + 1}]$ to have an approximate Poisson distribution with mean
+    \begin{equation*}
+        \sum \limits_{e^j < p \le e^{j + 1}} \frac{1}{p} \approx \log (j + 1) - \log j \approx \frac{1}{j}.
+    \end{equation*}
+    This suggests that one might compare the probability of having a cycle of length $j$ to the probability of having a prime divisor in $(e^j, e^{j + 1}]$, or the probability of having a fixed set of size $k$ to the probability of having a divisor in $(e^k, e^{k + 1}]$.
+    
+    The analogous problem to Theorem \ref{thm:integers-with-a-divisor-in-y-2y} for permutations is then to determine the number of permutations in $S_n$ that have a fixed set of size $k$.
+    Denote this number by $\tilde{H}(n, k)$. 
+    The order of magnitude of $\tilde{H}(n,k)$ was determined by Eberhard, Ford, and Green \cite{eberhardfordgreen}, who showed that
+    \begin{equation*}
+        \tilde{H}(n, k) \asymp \frac{n!}{k^\delta (1 + \log k)^{3/2}},
+    \end{equation*}
+    uniformly for $1 \le k \le n/2$.
+    In other words, $\tilde{H}(n, k)$ exhibits the same behaviour as $H(x, y, 2y)$ if one equates $y = e^{k}$.
+    The proof uses the same ideas as in \cite{integerswithadivisor}, although the details are considerably simpler in the context of permutations.
+\end{remark}
+
+\subsection{A heuristic argument}
+    \label{subsec:heuristic}
+Let us first explain where the exponent $\delta$ comes from.
+In Section \ref{subsec:multiplication-table-problem}, we already established an upper bound on $M(N)$ of the form
+\begin{equation*}
+    M(N) \ll \frac{N^2}{(\log N)^{Q(\lambda)}},
+\end{equation*}
+where $Q(\lambda) = \lambda \log \lambda - \lambda + 1$.
+The optimal value of $\lambda$ turned out to be $1/\log 2$, \mbox{and $Q(1/\log 2) = \delta$.}
+This gave us a hint that the main contribution to $M(N)$ comes from integers with roughly $\log \log N / \log 2$ distinct prime divisors. 
+Similarly, we will see that the main contribution to $H(x, y, 2y)$ comes from integers with about $\log \log y/ \log 2$ prime divisors $\le 2y$ which, in turn, will give rise to the exponent $\delta$.
+Note that by Theorem \ref{thm:hardy-ramanujan-generalisation}, a typical integer in $[1, x]$ has very close to $\log \log y$ prime divisors $\le 2y$, so similarly to the case of the multiplication table, the dominant contribution to $H(x, y, 2y)$ comes from ``atypical'' integers.
+
+Heuristically, this can be seen as follows (cf. \cite{integerswithadivisor}).
+Suppose that an integer $n \le x$ is chosen uniformly at random and write $n = ab$, where all prime factors of $a$ are $\le 2y$, and all prime factors of $b$ are $> 2y$.
+Then it only depends on $a$ whether $n$ has a divisor in $(y, 2y]$.
+It is reasonably likely that $y^{1/100} \le a \le y^{100}$ (say), in which case $\log a \asymp \log y$.
+For simplicity, assume that $a$ is squarefree.
+
+The correct scale to look at divisors is a logarithmic scale.
+The interval $(y, 2y]$ then corresponds to an interval of logarithmic length $\log 2$.
+Suppose for now that the set $\set{\log d}{d \mid a}$ is evenly distributed over $[0, \log a]$. 
+Put $k = \omega(a)$. Since $\tau(a) = 2^k$, we would expect $\prob{\tau(a, y, 2y) \ge 1}$ to be roughly
+\begin{equation*}
+    \approx \min\left(1, \frac{2^k \log 2}{\log a}\right) \asymp \min\left(1, \frac{2^k}{\log y}\right).
+\end{equation*}
+There is a transition at
+\begin{equation*}
+    k_0 := \lflr \frac{\log \log y}{\log 2} \rflr,
+\end{equation*}
+so we expect the main contribution to $H(x,y,2y)$ to come from those $n$ for which $\omega(a) \ge k_0 - O(1)$.
+Theorem \ref{thm:prime-factors-in-a-set} tells us that the number of integers $\le x$ with precisely $k$ prime factors $\le 2y$ is 
+\begin{equation*}
+    \ll \frac{x}{\log y} \frac{(\log \log y)^k}{k!}.
+\end{equation*}
+Summing over $k \ge k_0$, we estimate that $H(x, y, 2y)$ should be
+\begin{equation*}
+    \ll \frac{x}{\log y} \sum \limits_{k \ge k_0 - O(1)} \frac{(\log \log y)^k}{k!} \ll \frac{x}{\log y} \frac{(\log \log y)^{k_0}}{k_0!} \ll \frac{x}{(\log y)^\delta (\log \log y)^{1/2}},
+\end{equation*}
+where the last step follows from Stirling's formula.
+
+Comparing this with Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, we see that we are off by a factor of $\log \log y$.
+The reason is that our uniformity assumption on the set of divisors is only justified with probability about $1/\log \log y$.
+In reality, fluctuations of prime divisors on a log-log scale cause the divisors of $a$ to cluster rather than being evenly distributed, which reduces the likelihood of having a divisor in a particular interval. 
+
+This phenomenon is related to the distribution of uniform order statistics. 
+Given $X_1, \dots, X_k$ sampled independently and uniformly at random from $[0, t]$, their \defn{order statistics} are the random variables $0 \le \xi_1 \le \dots \le \xi_k \le t$, where $\xi_j$ is $j$th smallest of the sample values of $X_1, \dots, X_k$.
+
+Suppose $a = p_1 \cdots p_k$, where $p_1 < \dots < p_k \le 2y$, and $k \sim k_0$.
+In light of the Kubilius model, we expect the sequence $\log \log p_1, \log \log p_2, \dots$ to behave locally like a Poisson point process with intensity 1. (Of course, this is not true for small prime divisors if taken too literally.) Conditioned on having precisely $k$ points in $[0, \log \log (2y)]$, the law of the Poisson process is equal to the distribution of uniform order statistics on $[0, \log \log (2y)]$, see e.g. \cite[Chapter 2.3]{ross}.
+Standard results on order statistics then tell us that we can expect $\log \log p_j \sim \frac{j}{k} \log \log y \sim j \log 2$, but with high probability, there exists some $j$ for which
+\begin{equation*}
+    \log \log p_j \le j \log 2 - c \sqrt{\log \log y},
+\end{equation*}
+where $c > 0$ is some small constant. (This is also roughly what one would expect given Corollary \ref{cor:deviations-of-prime-divisors-on-a-loglog-scale}.)
+The divisors of $p_1 \cdots p_j$ should then lie in a interval of length
+\begin{equation*}
+    \ll \log p_j \ll 2^{j} e^{-c \sqrt{\log \log y}},
+\end{equation*}
+and the divisors of $a$ lie in $2^{k - j}$ translates of this interval.
+We are thus led to expect
+\begin{equation*}
+    \prob{\tau(a, y, 2y) \ge 1} \approx \frac{2^k}{\log y} e^{-c \sqrt{\log \log y}},
+\end{equation*}
+which is much smaller than our original estimate.
+
+This heuristic leads to two key insights in Ford's work: 
+\begin{enumerate}
+    \item We need a way to capture how the clustering of divisors affects the chance of having a divisor in $(y, 2y]$. 
+    Ford achieves this by introducing a quantity $L(a)$ (see Definition \ref{def:L-a} below) that measures the extent of the clustering. 
+
+    \item The main contribution to $H(x, y, 2y)$ should come from integers with $\approx k_0$ prime divisors in $[0, 2y]$ for which the divisors are in fact evenly distributed on a logarithmic scale.
+    This is the case when 
+    \begin{equation} \label{eq:heuristic-condition-on-prime-factors}
+        \log \log p_j \ge j \log 2 - O(1), \qquad 1\le j \le k.
+    \end{equation}
+    If $\xi_1 \le \dots \le \xi_k$ are uniform order statistics on $[0, 1]$, \eqref{eq:heuristic-condition-on-prime-factors} corresponds to asking that 
+    \begin{equation} \label{eq:heuristic-condition-on-order-statistics}
+        \xi_j \ge \frac{j - O(1)}{k}, \qquad 1\le j \le k.
+    \end{equation}
+\end{enumerate}
+Ford showed that the probability of \eqref{eq:heuristic-condition-on-order-statistics} occurring is $\asymp 1/k \asymp 1/\log \log y$.
+This leads to the new estimate
+\begin{equation*}
+    H(x, y, 2y) \asymp \frac{x}{(\log y)^\delta (\log \log y)^{3/2}},
+\end{equation*}
+which finally gives the correct order of magnitude.
+
+\subsection{A global-to-local principle}
+
+To measure the clustering of divisors, we consider the following quantity. 
+\begin{definition} \label{def:L-a}
+    For any integer $a$, define
+    \begin{align*}
+        \mcL (a) &= \bigcup \limits_{d\mid a} \left[\log d - \log 2, \log d\right), \\
+        L(a) &= \meas(\mcL(a)),
+    \end{align*}
+    where ``$\meas$'' denotes the standard Lebesgue measure on $\mR$.
+\end{definition}
+
+Roughly speaking, $L(a)$ is small when the divisors of $a$ are clustered, and so their corresponding intervals overlap.
+Note that an integer $a$ has a divisor in $(y, 2y]$ if and only if 
+\begin{equation*}
+    \log d \in (\log y, \log y + \log 2]
+\end{equation*}
+for some $d \mid a$, which is equivalent to $\log y \in \mcL (a)$.
+
+Let us record some easy properties of $L(a)$.
+\begin{lemma} \label{lem:properties-of-L}
+    We have 
+    \begin{enumerate}[label=(\roman*)]
+        \item \label{item:properties-1} $L(a) \le \min \Set{\tau (a) \log 2,\, \log a + \log 2}$
+        \item \label{item:properties-2} If $(a, b) = 1$, then $L(ab) \le \tau(b) L(a)$.
+        \item \label{item:properties-3} If $p_1 < \dots < p_k$ are distinct primes, then 
+            \begin{equation*}
+                L(p_1 \cdots p_k) \le \min \limits_{0 \le j \le k} 2^{k - j} \log(2p_1 \cdots p_j).
+            \end{equation*}
+    \end{enumerate}
+\end{lemma}
+
+The bound $L(a) \le \tau(a) \log 2$ is useful when $a$ has few prime factors, and so $\tau(a)$ is small.
+Item (iii) captures the idea that if one of the prime factors of $a$ is significantly smaller than expected, the divisors of $a$ form clusters, which reduces the size of $L(a)$.
+
+\begin{proof}
+    Part (i) follows from the fact that $\mcL(a)$ is the union of $\tau(a)$ (not necessarily disjoint) intervals of length $\log 2$, all contained in $[-\log 2, \log a)$.
+
+    For (ii), note that every divisor $d\mid ab$ can be uniquely written as $d = d_1 d_2$ with $d_1 \mid a$ and $d_2 \mid b$. 
+    So
+    \begin{align*}
+        \mcL (ab) &= \bigcup \limits_{d_2 \mid b} \bigcup \limits_{d_1 \mid a} \left[ \log d_2 + \log d_1 - \log 2, \log d_2 + \log d_1 \right)  \\
+            &= \bigcup \limits_{d_2 \mid b} \set{ \log d_2 + t}{t \in \mcL (a)},
+    \end{align*}
+    which implies $L(ab) \le \tau (b) L(a)$.
+
+    Part (iii) now follows from applying (i) and (ii) with $a = p_1 \cdots p_j$ and $b = p_{j + 1} \cdots p_k$ and noting that $\tau(b) = 2^{k - j}$.
+\end{proof}
+
+\begin{remark}
+    If $d \mid a$ for squarefree $a$, then
+    \begin{equation*}
+        \log d = \sum \limits_{p \mid d} \log p.
+    \end{equation*}
+    Looking at divisors on a logarithmic scale, one can therefore think about the question if an integer has a divisor in $(y, 2y]$ as a subset-sum problem.
+    More generally, for $x_1, \dots, x_k \ge 0$, one could define a quantity
+    \begin{equation*}
+        \mcL(\rho, \mbx) = \bigcup\limits_{\eps_1, \dots, \eps_k \in \Set{0,1}} \left[ -\rho + \sum \limits_{i = 1}^k \eps_i x_i, \sum \limits_{i = 1}^k \eps_i x_i \right)
+    \end{equation*}
+    to measure the distribution of the subset sums of $x_1, \dots, x_k$.
+\end{remark}
+
+Suppose $n \le x$ is chosen uniformly at random and write $n = ab$ with $P^+(a) \le 2y < P^-(b)$ as before.
+Then $H(x, y, 2y)$ is equal to the number of $n \le x$ for which $\log y \in \mcL (a)$.
+Instead of trying to compute the probability that $a$ has a divisor in $(y, 2y]$ directly, the problem can be reduced to estimating the size of a certain weighted average \mbox{of $L(a)$}.
+Ford calls this a ``global-to-local'' principle, as $L(a)$ captures the global distribution of the divisors \mbox{of $a$.}
+
+Assuming again that $\log a \asymp \log y$, we expect a positive proportion of $\mcL(a)$ to be of order $\asymp \log y$, and so the probability that $\tau(n, y, 2y) \ge 1$ should be roughly $\asymp \expn{L(a)} / \log y$.
+(Here, $a$ should be thought of as a function of $n$.)
+Recall from Section \ref{subsec:kubilius-model} that when $y$ is small compared to $x$, the exponents in the prime factorisation of $a$ are approximately geometrically distributed. 
+Assuming this is still reasonable for the range we are interested in, we obtain that the probability of choosing one particular $a$ is roughly
+\begin{equation*}
+    \approx \frac{1}{a} \cdot \prod\limits_{p \le y} \left(1 - \frac{1}{p}\right) \asymp \frac{1}{\log y} \cdot \frac{1}{a}.
+\end{equation*}
+This leads us to expect that
+\begin{equation*}
+    \prob{\tau(n, y, 2y) \ge 1} \asymp \frac{1}{\log y} \expn{L(a)} \asymp \frac{1}{(\log y)^2} \sum \limits_{a} \frac{L(a)}{a}.
+\end{equation*}
+Such a statement holds indeed; this is made precise in Lemma \ref{lem:global-to-local-principle}.
+
+Define
+\begin{equation*}
+    \mcS(y) = \set{ n \in \mN}{n \text{ squarefree},  \; P^+(n) \le y},
+\end{equation*}
+and note that this is a finite set.
+Furthermore, let $y_0$ be a large constant.
+
+\begin{lemma}[Global-to-local principle]
+    \label{lem:global-to-local-principle}
+    For $y \ge y_0$, we have
+    \begin{equation*}
+        H(x, y, 2y) \asymp \frac{x}{(\log y)^2} \sum \limits_{a \in \mcS(y)} \frac{L(a)}{a}.
+    \end{equation*}    
+\end{lemma}
+
+The lemma is one of the key steps in the proof of Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, serving as a starting point for both the lower and the upper bounds.
+The remainder of this section is devoted to the proof of the lemma.
+We will provide the details for the lower bound and outline the proof of the upper bound, which is more technically involved. 
+
+Let us start by collecting two estimates showing that for sums over $L(a)/a$, we have some flexibility in choosing the set of integers $a$ summed over.
+In particular, when summing over $a \in \mcS(y_1)$, taking $y_2 = y_1^{O(1)}$ changes the value of the sum by at most a constant factor.
+
+\begin{lemma} \label{lem:replace-sum-over-a}
+    \begin{enumerate}
+        \item Suppose $2 \le y_1 < y_2$. Then 
+            \begin{equation*}
+                \sum \limits_{a \in \mcS(y_2)} \frac{L(a)}{a} \ll \left( \frac{\log y_2}{\log y_1} \right)^2 \sum \limits_{a \in \mcS(y_1)}\frac{L(a)}{a}.
+            \end{equation*}
+        \item For any $y \ge 2$,
+            \begin{equation*}
+                \sum \limits_{a \le y} \frac{L(a)}{a} \asymp \sum \limits_{a \in \mcS(y)} \frac{L(a)}{a}.
+            \end{equation*}
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    (i) Write every $a \in \mcS(y_2)$ uniquely as $a = a_1 a_2$ with $P^+(a_1) \le y_1 < P^- (a_2)$.
+    Then $(a_1, a_2 ) = 1$, so Lemma \ref{lem:properties-of-L} (ii) implies that $L(a) \le \tau(a_2) L(a_1)$.
+    Hence,
+    \begin{equation*}
+        \sum \limits_{a \in \mcS(y_2)} \frac{L(a)}{a} \le \sum \limits_{a_1 \in \mcS(y_1)} \frac{L(a_1)}{a_1} \sum \limits_{\substack{a_2 \in \mcS(y_2) \\ P^-(a) > y_1}} \frac{\tau(a_2)}{a_2}.
+    \end{equation*}
+    The inner sum on the right-hand side is
+    \begin{align*}
+        \prod \limits_{y_1 < p \le y_2}  \left(1 + \frac{2}{p} \right) \le \exp \left( 2 \sum \limits_{y_1 < p \le y_2} \frac{1}{p} \right) \ll \left(\frac{\log y_2}{\log y_1}\right)^2
+    \end{align*}
+    by Mertens' second estimate. 
+
+    (ii) The ``$\ll$'' part is clear.
+    For the other direction, note the inequality
+    \begin{equation*}
+        \ind{a \le y} \ge 1 - \frac{\log a}{\log y}.
+    \end{equation*}
+    We use the above to write
+    \begin{align} \label{eq:lower-bound-ineq}
+        \sum \limits_{a \le y} \frac{L(a)}{a} &\ge \sum \limits_{a \in \mcS(y^{1/4})} \ind{a \le y} \cdot \frac{L(a)}{a}\nonumber \\&\ge \sum \limits_{a \in \mcS(y^{1/4})} \frac{L(a)}{a}  - \frac{1}{\log y} \sum \limits_{a \in \mcS(y^{1/4})} \frac{L(a) \log a}{a}.
+    \end{align}
+    Now
+    \begin{align*}
+        \sum \limits_{a \in \mcS(y^{1/4})} \frac{L(a) \log a}{a} 
+            &= \sum \limits_{a \in \mcS(y^{1/4})} \frac{L(a)}{a} \sum\limits_{p \mid a} \log p \\
+            &= \sum \limits_{p \le y^{1/4}} \frac{\log p}{p} \sum\limits_{\substack{b \in \mcS(y^{1/4})\\p \nmid b}} \frac{L(pb)}{b} \\
+            &\le 2\sum \limits_{p \le y^{1/4}} \frac{\log p}{p} \sum\limits_{b \in \mcS(y^{1/4})} \frac{L(b)}{b} \\
+            &= \left({\tfrac{1}{2}} \log y + O(1) \right) \sum\limits_{b \in \mcS(y^{1/4})} \frac{L(b)}{b},
+    \end{align*}
+    where we have used Lemma \ref{lem:properties-of-L} (ii) for the third inequality and Mertens' first estimate to pass to the last line.
+    Combining this with \eqref{eq:lower-bound-ineq}, we get
+    \begin{equation*}
+        \sum \limits_{a \le y} \frac{L(a)}{a} \ge \left(1 - \frac{1}{2} - O\left( \frac{1}{\log y} \right) \right)\sum \limits_{a \in \mcS(y^{1/4})} \frac{L(a)}{a} \gg \sum \limits_{a \in \mcS(y^{1/4})} \frac{L(a)}{a}.
+    \end{equation*}
+    Finally, part (i) tells us that we can replace $\mcS(y^{1/4})$ by $\mcS(y)$.
+\end{proof}
+
+We shall also use the following simple sieve bound.
+\begin{lemma} \label{lem:sieve-bound}
+    Let $z \ge 2$ and $x \ge z$. Then
+    \begin{equation*}
+        \#\set{n \le x}{P^-(n) > z} \ll \frac{x}{\log z}.
+    \end{equation*}
+    If $x \ge 2z$, we also have
+    \begin{equation*}
+        \#\set{n \le x}{P^-(n) > z} \gg \frac{x}{\log z}.
+    \end{equation*}
+\end{lemma}
+Heuristically, the lemma seems plausible if one assumes that divisibility by distinct primes is approximately independent; the number of integers $\le x$ not divisible by any prime $p \le z$ should then be
+\begin{equation*}
+    \approx x \prod_{p \le z} \left( 1 - \frac{1}{p} \right),
+\end{equation*}
+which is $\asymp x/ \log z$ by Mertens' third estimate.
+A proof of Lemma \ref{lem:sieve-bound} is sketched in \cite[Exercise 02]{divisors}.
+
+We now have all the tools to prove the lower bound in Lemma \ref{lem:global-to-local-principle}.
+The idea is to count integers $n \le x$ of the form $n = apb$, where $p$ is a prime in $(y^{1 - \delta}, 2y]$, for some $\delta > 0$, and $ap$ has a divisor in $(y, 2y]$. 
+Any such integer $n$ is counted by $H(x, y, 2y)$, so a lower bound on the number of choices for $n$ will give a lower bound on $H(x, y, 2y)$.
+\begin{proof}[Proof of Lemma \ref{lem:global-to-local-principle}, lower bound]
+    Consider integers $n \le x$ of the form $n = apb$, where $a \le y^{1/8}$, $p$ is prime, and all prime factors of $b$ are $> 2y$ or in $(y^{1/4}, y^{3/4}]$.
+    Moreover, assume that $a$ has a divisor $d$ for which $dp \in (y, 2y]$.
+    The last condition is equivalent to $\log(y/p) \in \mcL(a)$, and it implies that $n$ is counted by $H(x, y, 2y)$. 
+    Furthermore, it implies that $p \in (y^{7/8}, 2y]$.
+    This means that the representation of $n$ as $abp$ is unique (if it exists), since $p$ and the prime factors of $a$ and $b$ lie in disjoint intervals.
+
+    For a fixed pair $a, p$, we now estimate the number of choices for $b$.
+    Note that we must have $b \le x/ap$.
+    Also, $x \ge y^2$ and $ap \le 2y^{9/8}$, so $x/ap \ge \frac{1}{2}y^{7/8}$.
+    When $x / ap \ge 4y$, the sieve bound from Lemma \ref{lem:sieve-bound} implies that 
+    \begin{equation*}
+        \#\set{b \le \frac{x}{ap}}{P^-(b) > 2y} \gg \frac{x}{ap \log y}.
+    \end{equation*}
+    When $x/ap < 4y$, we need to use that $b$ can have prime factors in $(y^{1/4}, y^{3/4}]$.
+    We claim that there are $\gg x/(ap \log y)$ possibilities to choose $b$ as a product of two primes $q_1, q_2$ from that interval.
+    Indeed, suppose that we choose the first prime $q_1 \in (4y^{1/4}, y^{1/2}]$.    
+    Then 
+    \begin{equation*}
+         \frac{x}{apq_1} \le \frac{4y}{q_1} \le y^{3/4},
+    \end{equation*}
+    so we can choose $q_2$ from the interval $(y^{1/4}, x/(apq_1)]$.
+    Since $x/(apq_1) \gg y^{7/8} / q_1 \gg y^{3/8}$,
+    the PNT tells us that this interval contains 
+    \begin{equation*}
+        \pi\left( \frac{x}{apq_1} \right) - \pi\left(y^{1/4}\right)\gg \frac{x}{apq_1 \log y} - y^{1/4} \gg \frac{x}{apq_1 \log y}
+    \end{equation*}
+    primes. 
+    Summing over all choices for $q_1$ and applying Mertens' second estimate \eqref{eq:mertens-second}, we conclude that there are
+    \begin{equation*}
+        \gg \frac{x}{a p \log y} \underbrace{\sum \limits_{4y^{1/4} < q_1 \le y^{1/2}} \frac{1}{q_1}}_{\asymp 1} \gg \frac{x}{a p \log y}
+    \end{equation*}
+    choices for $b$.
+
+    Together, the number of admissible $n$ is
+    \begin{equation} \label{eq:lower-bound-choices-for-n}
+        \gg \sum \limits_{a \le y^{1/8}} \frac{x}{a \log y} \sum \limits_{p \colon \log (y/p) \in \mcL(a)} \frac{1}{p}. 
+    \end{equation}
+    To estimate the sum over $p$, we apply Mertens' estimate to every interval in $\mcL(a)$. 
+    This is encapsulated in the following claim.
+    \begin{claim*}
+        \begin{equation*}
+            \sum \limits_{p \colon \log (y/p) \in \mcL(a)} \frac{1}{p} \asymp \frac{L(a)}{\log y}.
+        \end{equation*}
+    \end{claim*}
+    \begin{proof}
+        \renewcommand{\qedsymbol}{$\Diamond$}
+        Recall that $\mcL(a)$ is the union of intervals of length at least $\log 2$, all of which are contained in $[0, \frac{1}{8}\log y)$ since $a \le y^{1/8}$.
+        For every such interval $[u, v)$, we have
+        \begin{equation*}
+            \log\left(\frac{y}{p} \right) \in [u, v) \quad \Longleftrightarrow \quad p \in (ye^{-v}, ye^{-u}].
+        \end{equation*}
+        Mertens' second estimate \eqref{eq:mertens-second} (with the strong error term) gives
+        \begin{align*}
+            \sum \limits_{u \le \log (y/p) < v} \frac{1}{p} 
+            % &=\sum \limits_{ye^{-v} < p \le ye^{-u}} \frac{1}{p} \\ 
+            &= \log \log (ye^{-u}) - \log \log (ye^{-v}) + O\left(e^{-c\sqrt{-v+\log y}}\right) \\
+            % &= \int_{ye^{-v}}^{ye^{-u}} \frac{1}{t \log t}\,\mathrm d t + O\left(e^{-c\sqrt{-v+\log y}}\right) \\ 
+            &= \int_{\log y -v}^{\log y -u} \frac{1}{t}\,\mathrm d t + O\left(e^{-c\sqrt{\log y}}\right) \\ 
+            &\asymp \frac{v - u}{\log y} + O\left(e^{-c\sqrt{\log y}}\right).
+        \end{align*}
+        For the last step, we used that the integrand in the second line is of order $1/\log y$ throughout, since $u, v\le \frac{1}{8} \log y$.
+        Since $v - u \ge \log 2$, we can omit the error term. 
+        The claim now follows by summing over all intervals $[u, v)$.
+    \end{proof}
+
+    Combining the claim and \eqref{eq:lower-bound-choices-for-n}, we arrive at
+    \begin{equation*}
+        H(x, y, 2y) \gg \frac{x}{(\log y)^2} \sum \limits_{a \le y^{1/8}} \frac{L(a)}{a}.
+    \end{equation*}
+    Finally, parts (i) and (ii) of Lemma \ref{lem:replace-sum-over-a} tell us that we can replace the sum over $a \le y^{1/8}$ by a sum over $\mcS(y)$, which concludes the proof.
+\end{proof}
+
+\begin{remark}
+    For the purpose of proving Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, replacing the sum over $a \le y^{1/8}$ by $a \in \mcS(y)$ is not necessary, and this is not done in \cite{integerswithadivisor}. 
+    However, it will slightly simplify later calculations; and it gives a more symmetric lemma, with a lower bound of the same shape as the upper bound.
+\end{remark}
+
+In the remainder of this section, we briefly sketch the derivation of the upper bound in Lemma \ref{lem:global-to-local-principle}.
+The first step is to relate $H(x, y, 2y)$ to the number of \textit{squarefree} integers with a divisor in a given interval.
+Let $H^*(x, y, 2y)$ denote the number of squarefree integers $\le x$ with a divisor in $(y, 2y]$.
+By decomposing every integer $\le x$ into coprime squarefree and squarefull parts, one quickly sees that
+\begin{equation} \label{eq:relate-H-x-y-2y-to-squarefree-integers}
+    H(x, y, 2y) \le \sum\limits_{\substack{n \le y^\delta\\ n \text{ squarefull}}} \sum \limits_{d \mid n} H^*\left( \frac{x}{n}, \frac{y}{d}, \frac{2y}{d} \right) + O\left( \frac{x}{y^{\delta/2}} \right),
+\end{equation}
+where the error term comes from omitting integers whose squarefull part is $> y^\delta$.
+
+Next, one relates the quantities $H^*(x / n, y/d, 2y/d)$ to a sum involving $L(a)$ by proving that for large enough $y \le x^{0.51}$,
+\begin{equation} \label{eq:sum-over-L-a-with-weird-denominator}
+    H^*(x, y, 2y) - H^{*}({\textstyle \frac{1}{2}}x, y, 2y) \ll x \sum \limits_{a \in \mcS(2y)} \frac{L(a)}{a \log^2 \max\left(y^{3/4}/a,\; P^+(a)\right)}.
+\end{equation}
+The strategy here is similar to the proof of the lower bound of Lemma \ref{lem:global-to-local-principle}. One writes each squarefree $n \in (x/2, x]$ with a divisor in $(y, 2y]$ as $n = apb$ with $P^+(a) < p < P^-(b)$ in a strategic way, and then uses the sieve bound from Lemma \ref{lem:sieve-bound} and Mertens' estimate to count the number of admissible $n$.
+
+One can then apply the above to each summand $H^*(x / n, y/d, 2y/d)$ in \eqref{eq:relate-H-x-y-2y-to-squarefree-integers} using dyadic summation. 
+Finally, to pass from \eqref{eq:sum-over-L-a-with-weird-denominator} to a sum over $L(a)/a$ of the desired form, one can apply a technical lemma due to Koukoulopoulos \cite[Lemma 2.2 (b)]{localizedfactorizationsofintegers} (see also \cite{integerswithadivisor} for a simple proof).
+The proof of the upper bound can be concluded by summing over pairs $d \mid n$ and noting that 
+\begin{equation*}
+    \sum \limits_{n \text{ squarefull}} \frac{\tau(n)}{n} = \prod\limits_{p} \left(1 + \frac{3}{p^2} + \frac{4}{p^3} + \dots  \right) \ll 1.
+\end{equation*}
+
+For details, we refer the reader to \cite[Section 7.6]{fordlecturenotes}.
+
+\subsection{Proof of the lower bound}
+    \label{subsec:proof-of-lower-bound}
+
+In the preceding section (Lemma \ref{lem:global-to-local-principle}), we showed that 
+\begin{equation*}
+    H(x, y, 2y) \gg \frac{x}{(\log y)^2} \sum \limits_{a \in \mcS(y)} \frac{L(a)}{a}
+\end{equation*}
+for $y \ge y_0$.
+To conclude the proof of the lower bound in Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, we now want to further bound the right-hand side.
+We reduce the problem of estimating the weighted average over $L(a)$ to a more combinatorial problem, namely, counting pairs of divisors that are close to each other. 
+Define
+\begin{equation*}
+    W(a) = \# \set{(d, d')}{d,d' \mid a,\, \left| \log \frac{d}{d'}\right| \le \log 2}.
+\end{equation*}
+Note that a pair of divisors $(d, d')$ is counted by $W(a)$ whenever their respective intervals in $\mcL(a)$ overlap, so $W(a)$ is large whenever the divisors of $a$ are clustered on a logarithmic scale.
+
+The next lemma essentially plays the role of a second-moment bound.
+
+\begin{lemma} \label{lem:snd-moment-bound}
+    For any finite set $\mcA \In \mN$, we have
+    \begin{equation*}
+        \sum \limits_{a \in \mcA} \frac{L(a)}{a} \ge (\log 2) \frac{\left(\sum_{a \in \mcA} \frac{\tau (a)}{a} \right)^2}{\sum_{a \in \mcA} \frac{W(a)}{a}}.
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    First, observe that 
+    \begin{equation*}
+        \int \tau(a, e^t, 2 e^t)\, \mathrm{d} t = (\log 2) \tau(a),
+    \end{equation*}
+    since every divisor is counted in an interval of length $\log 2$ by the integral. 
+    By the Cauchy--Schwarz inequality, 
+    \begin{align*}
+        \left(\int \tau(a, e^t, 2 e^t)\, \mathrm{d} t\right)^2 &= \left(\int \ind{t \in \mcL(a)} \tau(a, e^t, 2 e^t)\, \mathrm{d} t \right)^2 \\
+            &\le \int \ind{t \in \mcL(a)}\, \mathrm{d}t \cdot  \int \tau(a, e^t, 2 e^t)^2\, \mathrm{d} t
+            = L(a) \int \tau(a, e^t, 2 e^t)^2\, \mathrm{d} t.
+    \end{align*}
+    A second application of Cauchy--Schwarz (to the sum over $a$) gives
+    \begin{align*}
+        (\log 2)^2\left( \sum \limits_{a \in \mcA} \frac{\tau(a)}{a} \right)^2 
+            &= \left( \sum \limits_{a \in \mcA} \frac{1}{a} \int \tau(a, e^t, 2 e^t)\, \mathrm{d} t \right)^2 \\
+            &\le \left( \sum \limits_{a \in \mcA} \frac{L(a)}{a} \right) \left( \sum \limits_{a \in \mcA}\frac{1}{a} \int \tau(a, e^t, 2 e^t)^2\, \mathrm{d} t \right).
+    \end{align*}
+    Now
+    \begin{align*}
+        \int \tau(a, e^t, 2 e^t)^2\, \mathrm{d} t 
+            &= \sum \limits_{d, d' \mid a} \int \ind{d, d' \in (e^t, 2e^t]}\, \mathrm{d}t \\
+            &= \sum \limits_{d, d' \mid a} \max \Set{0, \log 2 - \left| \frac{\log d}{\log d'} \right|} 
+            \le (\log 2) W(a).
+    \end{align*}
+    The result follows after rearranging.
+\end{proof}
+
+We want to apply the above lemma to sets of integers whose prime factors are localised, in the sense that the number of prime factors that lie in a certain interval is prescribed. 
+To this end, we partition the primes into sets $(D_j)_{j \ge 1}$, defined as follows. 
+Set $\lambda_0 = 3/2$, and for $j \ge 1$, define $\lambda_j$ inductively as the largest prime such that
+\begin{equation} \label{eq:definition-of-lambda-j}
+    \sum \limits_{\lambda_{j - 1} < p \le \lambda_j} \frac{1}{p} \le \log 2.
+\end{equation}
+Now let $D_j = (\lambda_{j - 1}, \lambda_j]$.
+Furthermore, for any vector $\mbb = (b_1, \dots, b_J)$ whose entries are nonnegative integers, let $\mcA (\mbb)$ denote the set of squarefree integers with precisely $b_j$ prime factors in $D_j$ for $1 \le j \le J$, and no other prime factors.
+
+The sequence $(\lambda_j)_{j \ge 0}$ grows extremely rapidly. Roughly speaking, the following observation shows that $\log \lambda_j \approx 2 \log \lambda_{j - 1}$, and so $\lambda_j \approx \lambda_{j - 1}^2$.
+\begin{observation}
+    We have $\log \lambda_j = 2^{j + O(1)}$.
+\end{observation}
+\begin{proof}
+    Observe that since $\lambda_j$ is chosen to be the largest prime such that \eqref{eq:definition-of-lambda-j} holds, the left-hand side in \eqref{eq:definition-of-lambda-j} is $\log 2 + O(1/\lambda_j)$.
+    Now Mertens' estimate \eqref{eq:mertens-second} implies that
+    \begin{equation} \label{eq:mertens-applied-to-D-j}
+        \log \log \lambda_j - \log \log \lambda_{j - 1} = \log 2+ O\left( e^{-c \sqrt{\log \lambda_{j - 1}}} \right).
+    \end{equation}
+    Applying this iteratively, we obtain
+    \begin{equation} \label{eq:mertens-applied-iteratively-to-D-j}
+        \log \log \lambda_j = j \log 2 + O\left(\sum \limits_{i = 0}^{j - 1} e^{-c \sqrt{\log \lambda_{i}}} \right),
+    \end{equation}
+    and the error term is $O(1)$. 
+    To see this, observe that for large enough $j$, the error term in \eqref{eq:mertens-applied-to-D-j} is $< 0.1$ (say). So $\log \log \lambda_{j} - \log \log \lambda_{j - 1} \ge 1/2$, which implies $\log \lambda_j \ge \sqrt{e} \log \lambda_{j - 1}$.
+    Hence, the sequence $\log \lambda_{j}$ grows exponentially in $j$, and so the summands in the big-O term decay very fast.
+    Finally, exponentiating \eqref{eq:mertens-applied-iteratively-to-D-j}, we conclude that $\log \lambda_j  = 2^{j + O(1)}$.
+\end{proof}
+
+The intuition behind the above construction is that, when summing over reciprocals of primes, every interval $D_j$ carries roughly the same weight (namely $\approx \log 2$). 
+As a general principle, 
+\begin{equation*}
+    \sum \limits_{a \in \mcA (\mbb)} \frac{1}{a} \le \frac{1}{b_1! \cdots b_J!} \prod \limits_{j = 1}^J \left( \sum \limits_{p \in D_j} \frac{1}{p} \right)^{b_j} \le \frac{(\log 2)^{b_1 + \dots + b_J}}{b_1 ! \cdots b_J!},
+\end{equation*}
+since each of the sums over $p \in D_j$ is $\le \log 2$.
+Under some mild condition on the numbers $b_j$, a similar inequality holds in the other direction; see Lemma \ref{lem:lower-bound-for-sum-over-tau-a}.
+
+Also recall from Section \ref{subsec:kubilius-model} that heuristically, the prime divisors of a random integer behave roughly like a Poisson point process with intensity 1 on a log-log-scale.
+In light of this, we expect a ``typical'' integer $a$ to have $\Theta(1)$ prime factors in each $D_j$, at least when $j$ is neither too small nor too large.
+
+In what follows, let $y_0$ and $M$ be some large (but fixed) constants and assume that $y \ge y_0$.
+Put
+\begin{equation*}
+    k = \lflr \frac{\log \log y}{\log 2} - 2M \rflr,
+\end{equation*}
+and 
+\begin{equation*}
+    J = M + k - 1.
+\end{equation*}
+We now restrict our attention to integers with a precise count of prime factors in $D_M, \dots, D_J$ and $k$ prime factors in total.
+Set
+\begin{equation*}
+    \mcB = \set{(b_1, \dots, b_J)}{b_j = 0 \text{ for } j < M,\, b_1 + \dots + b_J = k}.
+\end{equation*}
+One should think about the entries $b_j$ of a vector in $\mcB$ as the number of prime divisors a given integer has in $D_j$.
+The choice of $J$ ensures that on average, an integer corresponding to such a vector has one prime divisor in each of $D_M, \dots, D_J$. 
+Furthermore, for $\mbb \in \mcB$ and $a \in \mcA(\mbb)$, we have $a \in \mcS(y)$.
+Indeed, in that case,
+\begin{equation*}
+    \log P^+(a) \le \log \lambda_J \le 2^{J + O(1)} \le 2^{\log \log y / \log 2} = \log y,
+\end{equation*}
+provided that $M$ is large enough to absorb the $O(1)$ term.
+Hence, we can write
+\begin{equation} \label{eq:reduce-to-b-in-B}
+    \sum \limits_{a \in \mcS(y)} \frac{L(a)}{a} \ge \sum \limits_{\mbb \in \mcB} \sum \limits_{a \in \mcA(\mbb)} \frac{L(a)}{a}.
+\end{equation}
+At first sight, this might seem somewhat wasteful. 
+However, recall that, heuristically, the main contribution to $H(x, y, 2y)$ should come from integers with $\log \log y / \log 2 + O(1)$ prime factors $\le 2y$.
+Furthermore, using Lemma \ref{lem:properties-of-L} (ii), one can easily show that by restricting the sum to numbers $a$ without small prime factors, one only loses a constant factor. 
+Therefore, we may still hope to recover the correct order of magnitude from the right-hand side of \eqref{eq:reduce-to-b-in-B}.
+
+Motivated by Lemma \ref{lem:snd-moment-bound} and the above discussion, we prove the next two lemmas.
+We further restrict the range of $\mbb$ to avoid numbers whose prime divisors are distributed too irregularly. 
+To this end, define
+\begin{equation*}
+    \mcB^* = \set{\mbb \in \mcB}{b_j \le Mj \text{ for } j \ge M}.
+\end{equation*}
+Note that $b_j \le Mj$ is a rather mild constraint, as typically we expect only $\sim 1$ prime in every interval $D_j$.
+
+\begin{lemma} \label{lem:lower-bound-for-sum-over-tau-a}
+    For $\mbb \in \mcB^*$, we have
+    \begin{equation*}
+        \sum \limits_{a \in \mcA(\mbb)} \frac{\tau (a)}{a} \gg \frac{(2 \log2 )^k}{b_M! \cdots b_J!}.
+    \end{equation*}
+\end{lemma}
+
+\begin{remark}
+    Without any growth assumption on the entries of $\mbb$, the above is not true. 
+    For example, the vector $\mbb$ with $b_M = k$ and $b_j = 0$ for $j \ne M$ lies in $\mcB$, but $\mcA(\mbb) = \emptyset$ if $y$ is too big, since there is only a bounded number of distinct primes in $D_M$.
+\end{remark}
+
+\begin{proof}[Proof of Lemma \ref{lem:lower-bound-for-sum-over-tau-a}]
+    Note that $\tau(a) = 2^k$ for all $a \in \mcA(\mbb)$.
+    Hence, 
+    \begin{align*}
+        \sum \limits_{a \in \mcA(\mbb)} \frac{\tau (a)}{a} &= 2^k \prod \limits_{j = M}^J \frac{1}{b_j!} \left( \sum \limits_{p_1 \in D_j} \frac{1}{p_1} \sum \limits_{p_2 \in D_j \setminus \Set{p_1}} \frac{1}{p_2} \cdots \sum \limits_{p_{b_j} \in D_j \setminus \{p_1, \dots, p_{b_j -1}\}} \frac{1}{p_{b_j}}\right) \\
+        &\ge 2^k \prod \limits_{j = M}^J \frac{1}{b_j!} \left(\log 2 - \frac{b_j}{\lambda_{j - 1}} \right)^{b_j} \\ 
+        &\ge \frac{(2 \log 2)^k}{2 b_M! \cdots b_J!}.
+    \end{align*}
+    For the last line, we used that
+    \begin{equation} \label{eq:bound-on-product}
+        \prod\limits_{j = M}^J\left(1 - \frac{b_j}{\lambda_{j - 1} \log 2}\right)^{b_j} \ge \frac{1}{2},
+    \end{equation}
+    provided that $M$ is large enough.
+    To see this, observe that for $0 \le x \le 1/2$, we have the inequality $1 - x \ge e^{-2x}$. 
+    Hence, using that $b_j \le Mj$ for all $j$,
+    \begin{equation*}
+        \prod\limits_{j = M}^J\left(1 - \frac{b_j}{\lambda_{j - 1} \log 2}\right)^{b_j} \ge \exp\left(-\sum_{j = M}^J \frac{2b_j^2}{\lambda_{j - 1} \log 2} \right) \ge \exp\left(-\sum_{j = M}^J \frac{2(Mj)^2}{\lambda_{j - 1} \log 2} \right).
+    \end{equation*}
+    Since $\lambda_{j - 1} = \exp(2^{j + O(1)})$, the sum in the exponent is rapidly convergent and in particular, it is $< \log 2$ if $M$ is large enough.
+    This shows \eqref{eq:bound-on-product} and thus completes the proof.
+\end{proof}
+
+\begin{lemma} \label{lem:upper-bound-for-sum-over-W-a}
+    For any $\mbb = (b_1, \dots, b_J) \in \mcB$, we have
+    \begin{equation*}
+        \sum \limits_{a \in \mcA (\mbb)} \frac{W(a)}{a} \ll \frac{(2 \log 2)^{k}}{b_M! \cdots b_J!} f(\mbb),
+    \end{equation*}
+    where 
+    \begin{equation*}
+        f(\mbb) = \sum \limits_{j = M}^J 2^{(b_M - 1) + \dots + (b_j - 1)}.
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    For $M\le j \le J$, put $B_j = b_M + \dots + b_j$ (note that $b_j = 0$ for $j < M$).
+    Consider $a \in \mcA (\mbb)$, and write $a = p_1 \cdots p_k$, with
+    \begin{equation} \label{eq:localised-prime-factors}
+        p_{B_{j - 1} + 1}, \dots, p_{B_j} \in D_j, \quad M \le j \le J.
+    \end{equation}
+    There is a 1-to-1 correspondence between the divisors of $a$ and subsets $X \In \Set{1, \dots, k}$. 
+    So recalling the definition of $W(a)$, we see that $W(a)$ is precisely equal to the number of pairs $X, Y \In \Set{1, \dots, k}$ for which 
+    \begin{equation} \label{eq:equation-for-W(a)}
+        \left| \sum \limits_{i \in X} \log p_i - \sum \limits_{i \in Y} \log p_i \right| \le \log 2.
+    \end{equation}
+    This implies that 
+    \begin{equation} \label{eq:rewrite-in-terms-of-X-and-Y}
+        \sum \limits_{a \in \mcA(\mbb)} \frac{W(a)}{a} \le \frac{1}{b_M ! \cdots b_J!} \sum \limits_{X, Y \In \Set{1, \dots, k}} \sum \limits_{\substack{p_1, \dots, p_k\\ \text{satisfying \eqref{eq:localised-prime-factors} and \eqref{eq:equation-for-W(a)}}  }} \frac{1}{p_1 \cdots p_k},
+    \end{equation}
+    where the factor $1/(b_M ! \cdots b_J!)$ comes from the fact that for each $a \in \mcA(\mbb)$ we can choose the primes $p_{B_{j - 1} + 1}, \dots, p_{B_j} \in D_j$ in $b_j!$ different orders. Also note that this really is an inequality since the primes in the inner sum need no longer be distinct.
+
+    First, consider the contribution of pairs $X = Y$. There are precisely $2^k$ such pairs, and for each of them, the innermost sum in \eqref{eq:rewrite-in-terms-of-X-and-Y} is
+    \begin{equation*}
+        \left( \sum \limits_{p \in D_M} \frac{1}{p} \right)^{b_M} \cdots \left( \sum \limits_{p \in D_J} \frac{1}{p} \right)^{b_J} \le (\log 2) ^k.
+    \end{equation*}
+
+    Now consider $X \ne Y$. 
+    For fixed $I \in \Set{1, \dots, k}$, we want to estimate the contribution of pairs $X, Y$ with $I = \max (X \triangle Y)$, i.e., for which $I$ is the largest element in which $X$ and $Y$ differ.
+    Let $e(I) \in \Set{M, \dots, J}$ be such that $B_{e(I) - 1} < I \le B_{e(I)}$.
+    Suppose that all $p_i$ are fixed except for $p_I$ (which varies over $D_{e(I)}$).
+    Then \eqref{eq:equation-for-W(a)} implies that $p_I$ is restricted to an interval $[U, 4U]$ for some number $U$ (depending on the other $p_i$), since $\log p_I$ is restricted to an interval of length $2\log 2$.
+    We then obtain from Mertens' estimate \eqref{eq:mertens-second} that 
+    \begin{align} \label{eq:bound-using-U}
+        \sum \limits_{\substack{p_I \in D_{e(I)}\\U \le p_I \le 4U}} \frac{1}{p_I} 
+            &\le \sup \limits_{\lambda_{e(I) - 1} \le u \le \lambda_{e(I)}} \sum \limits_{u < p_I \le 4u} \frac{1}{p_I}\nonumber \\
+            &\le \sup \limits_{\lambda_{e(I) - 1} \le u \le \lambda_{e(I)}} (\log \log 4u) - \log \log u + O\left(e^{-c\sqrt{\log u}}\right)\nonumber \\
+            &\ll \sup \limits_{\lambda_{e(I) - 1} \le u \le \lambda_{e(I)}} \frac{1}{\log u}\nonumber \\
+            &\ll \frac{1}{\log \lambda_{e(I) - 1}}\nonumber \\
+            &\ll 2^{-e(I)}.
+    \end{align}
+    For the last inequality, we used $\log \lambda_{e(I) - 1} \ge 2^{e(I) + O(1)}$.
+    Note the role of $U$ in restricting the range of the sum: If we took the sum over all of $D_{e(I)}$, we would only get the trivial upper bound $\log 2$.
+
+    Summing over the $p_i$ with $i \ne I$, it follows from \eqref{eq:bound-using-U} that for a fixed pair $X \ne Y$ with $I = \max (X \triangle Y)$, the inner sum in \eqref{eq:rewrite-in-terms-of-X-and-Y} is at most $(\log 2)^k \cdot 2^{-e(I)}$. 
+    There are precisely\footnotemark
+    \footnotetext{We have two choices to put $I$ either in $X$ or in $Y$. Next, we have $2^{k-I}$ choices to include each number $> I$ in both $X$ and $Y$ or in neither set. Finally, for the numbers $< I$ we have $4^{I - 1}$ choices, since we can include each number in either of $X$ and $Y$, in both, or in neither of the two.}
+    \begin{equation*}
+        2 \cdot 2^{k- I} \cdot 4^{I - 1}  = 2^{k + I - 1}
+    \end{equation*}
+    choices for $X, Y$ with $I = \max (X \triangle Y)$,
+    so the total contribution of this particular $I$ is 
+    \begin{equation*}
+        \ll 2^{k + I - 1 - e(I)} (\log 2) ^k.
+    \end{equation*}
+    Putting everything together, we obtain
+    \begin{align*}
+        \sum \limits_{a \in \mcA(\mbb)} \frac{W(a)}{a} 
+            &\ll \frac{(2 \log 2)^k}{b_M ! \cdots b_J!} \left( 1 + \sum \limits_{I = 1}^k 2^{I - 1 -e(I)} \right) \\
+            &\le \frac{(2 \log 2)^k}{b_M ! \cdots b_J!} \left( 1 + \sum \limits_{j = M}^J 2^{-j} \sum \limits_{B_{j - 1} < I \le B_j} 2^{I - 1} \right) \\ 
+            &\le  \frac{(2 \log 2)^k}{b_M ! \cdots b_J!} \left( 1 + \sum \limits_{j = M}^J 2^{B_j -j} \right).
+    \end{align*}
+    Recalling that $B_j = b_M + \dots + b_j$, the right-hand side is equal to
+    \begin{equation*}
+            \frac{(2 \log 2)^k}{b_M ! \cdots b_J!}  \left( 1 + 2^{1 - M} \sum \limits_{j = M}^J 2^{(b_M - 1) + \dots + (b_j - 1)} \right)
+            \ll \frac{(2 \log 2)^k}{b_M ! \cdots b_J!}  \left( 1 + f(\mbb) \right).
+    \end{equation*}
+    Finally, since the summand for $j = M$ is at least $2^{-1}$, we have $f(\mbb) \ge 1/2$, and so we may drop the $+1$ term. 
+    This concludes the proof.
+\end{proof}
+
+Combining Lemmas \ref{lem:snd-moment-bound}, \ref{lem:lower-bound-for-sum-over-tau-a}, and \ref{lem:upper-bound-for-sum-over-W-a}, we have
+\begin{align} \label{eq:estimate-h-x-y-2y-by-sum-over-f-b}
+    H(x, y, 2y) &\gg \frac{x}{(\log y)^2} \sum \limits_{\mbb \in \mcB^*} \sum \limits_{a \in \mcA(\mbb)} \frac{L(a)}{a} \nonumber \\ 
+    &\gg \frac{x}{(\log y)^2} \sum \limits_{\mbb \in \mcB^*} \frac{\left(\sum_{a \in \mcA(\mbb)} \frac{\tau (a)}{a} \right)^2}{\sum_{a \in \mcA(\mbb)} \frac{W(a)}{a}} \nonumber \\
+    &\gg \frac{x(2 \log 2)^k}{(\log y)^2}  \sum \limits_{\mbb \in \mcB^*} \frac{1}{b_M! \cdots b_J! f(\mbb)}.
+\end{align}
+Remarkably, the sum on the right-hand side can be evaluated using a trick, namely averaging over cyclic permutations of $\mbb$.
+Note that for $\mbb \in \mcB$,
+\begin{equation} \label{eq:exponents-in-f-of-b-sum-to-zero}
+    (b_M - 1) + \dots + (b_J - 1) = 0,
+\end{equation}
+since we have $k$ summands and $b_M + \dots + b_J = k$.
+The key tool is the next lemma, which essentially tells us that on average over cyclic permutations, $1/f(\mbb) = 1/k$.
+
+\begin{lemma}[Cycle lemma]
+    Suppose $x_1, \dots, x_r$ are positive real numbers with $x_1 \cdots x_r = 1$. 
+    Then, reading indices modulo $r$, we have
+    \begin{equation*}
+        \sum \limits_{t = 0}^{r - 1} \left( \sum \limits_{j = 1}^r x_{t + 1} \cdots x_{t + j} \right)^{-1} = 1.
+    \end{equation*}
+    More generally, if $x_1 \cdots x_r = X$, then the above sum lies in $[\max(1, X)^{-1}, \min(1, X)^{-1}]$.
+\end{lemma}
+
+For the (straightforward) proof, we refer the reader to \cite{integerswithadivisor}.
+\begin{remark}
+    In \cite{integerswithadivisor}, Ford remarks that the above lemma is related to the following observation.
+    Suppose $z_1, \dots, z_r$ are real numbers with $z_1+ \dots + z_r = 0$.
+    Then there exists a cyclic permutation of $(z_1, \dots, z_r)$ such that all partial sums are nonnegative, i.e., there exists some $t \in \Set{0, \dots, r - 1}$ such that
+    \begin{equation*}
+        z_{t+1} + \dots + z_{t + j} \ge 0
+    \end{equation*}
+    for all $j \ge 1$. This can be seen by choosing $t$ so that $z_1 + \dots + z_t$ is minimal.
+    This observation, in turn, is related to a more general \defn{cycle lemma}, which can be used, e.g. to prove Bertrand's ballot theorem, see \cite{aproblemofarrangements}.
+
+    With the above in mind, the idea to average over cyclic permutations can be motivated as follows. 
+    We expect 
+    \begin{equation*}
+        f(\mbb) \approx g(\mbb) = \max_{j} 2^{(b_M - 1) + \dots + (b_j - 1)}.
+    \end{equation*}
+    Since $(b_M - 1) + \dots + (b_J - 1) = 0$, there exists a cyclic permutation $\mbb'$ of $(b_M, \dots, b_J)$ such that all partial sums are $\le 0$, and so $g(\mbb') = 1$.
+    Therefore, we expect that on average over cyclic permutations $\mbb'$ of $\mbb$, $1/f(\mbb') \gg 1/k$.
+    Since the product $b_M! \dots b_J!$ is invariant under cyclic permutations, and since the orbits under cyclic permutations partition $\mcB$, we thus expect $1/f(\mbb) \gg 1/k$ on average over $\mbb \in \mcB$.
+\end{remark}
+
+Returning to the proof of Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, we have
+\begin{equation} \label{eq:estimate-sum-over-b-by-T-and-S}
+    \sum \limits_{\mbb \in \mcB^*} \frac{1}{b_M! \cdots b_J! f(\mbb)} \ge S - \sum \limits_{M\le h \le k/M} T(h),
+\end{equation}
+where 
+\begin{align*}
+    S = \sum \limits_{\mbb \in \mcB}\frac{1}{b_M! \cdots b_J! f(\mbb)}, \qquad T(h) = \sum \limits_{\substack{\mbb \in \mcB\\b_h > Mh}}\frac{1}{b_M! \cdots b_J!f(\mbb)}.
+\end{align*}
+Note that for $h > k/M$ the condition $b_h \le Mh$ is automatically satisfied since there are only $k$ prime factors in total.
+
+The cycle lemma can be used to explicitly (!) evaluate $S$ and to show that the total size of the $T(h)$ is acceptable.
+\begin{lemma} \label{lem:evaluate-S-and-T}
+    We have
+    \begin{equation*}
+        S = \frac{k^{k - 1}}{k!}
+    \end{equation*}
+    and for all $M \le h \le k/M$,
+    \begin{equation*}
+        T(h) \le \frac{2}{(Mh)!} \frac{k^{k - 1}}{k!}.
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}
+    For the first part, we want to apply the cycle lemma with $x_j = 2^{b_{M - 1 + j} - 1}$ ($j \in [k]$).
+    Note that \eqref{eq:exponents-in-f-of-b-sum-to-zero} implies $x_1 \cdots x_k = 1$.
+    Since every cyclic permutation of $(b_M, \dots, b_J)$ gives a 1-to-1 map on $\mcB$, and since the product of factorials is invariant under cyclic permutations, we can write
+    \begin{equation*}
+        \sum \limits_{\mbb \in \mcB} \frac{1}{b_M! \cdots b_J! f(\mbb)} = \frac{1}{k} \sum \limits_{\mbb \in \mcB} \frac{1}{b_M! \cdots b_J!} \sum \limits_{\mbb'} \frac{1}{f(\mbb')},
+    \end{equation*}
+    where $\mbb'$ runs over all $k$ cyclic permutations of $(b_M, \dots, b_J)$.
+    By the cycle lemma, the sum over $\mbb'$ equals $1$. 
+    Using the multinomial theorem, we conclude that
+    \begin{align*}
+        S &= \frac{1}{k} \sum \limits_{\mbb \in \mcB} \frac{1}{b_M! \cdots b_J!} = \frac{1}{k \cdot k!} \sum \limits_{\mbb \in \mcB} \binom{k}{b_M, \dots, b_J} = \frac{k^{k - 1}}{k!}.
+    \end{align*}
+
+    The second part follows a similar pattern but is technically more involved. The idea is to apply the cycle lemma to cyclic permutations of $(b_{h + 1}, \dots, b_J)$.
+    Details can be found in \cite{fordlecturenotes}.
+\end{proof}
+
+We finally have collected everything we need to complete the proof of the lower bound.
+\begin{proof}[Proof of Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, lower bound]
+    If $y \le y_0$, then $H(x, y, 2y) \asymp x$.
+    Hence, we may assume that $y$ is large.
+    Lemma \ref{lem:evaluate-S-and-T} gives
+    \begin{equation*}
+        \sum \limits_{M \le h \le k/M} T(h) \le \sum \limits_{h \ge M}\frac{2}{(Mh)!} \frac{k^{k - 1}}{k!} \le \frac{1}{2} \frac{k^{k - 1}}{k!},
+    \end{equation*}
+    and so 
+    \begin{equation*}
+        S - \sum \limits_{M \le h \le k/M} T(h) \ge \frac{1}{2} \frac{k^{k - 1}}{k!},
+    \end{equation*}
+    provided that $M$ is large enough.
+    Combining \eqref{eq:estimate-h-x-y-2y-by-sum-over-f-b} and \eqref{eq:estimate-sum-over-b-by-T-and-S}, we deduce that
+    \begin{align} \label{eq:final-calculation-lower-bound}
+        H(x, y, 2y) &\gg \frac{x(2 \log 2)^k}{(\log y)^2} \sum \limits_{\mbb \in \mcB^*} \frac{1}{b_M! \cdots b_J! f(\mbb)} \nonumber \\
+            &\gg \frac{x(2 \log 2)^k}{(\log y)^2} \left( S - \sum \limits_{M \le h \le k/M} T(h) \right) \nonumber \\ 
+            &\gg \frac{x(2 \log 2)^k}{(\log y)^2} \frac{k^{k - 1}}{k!}.
+    \end{align}
+    Stirling's formula states that $
+        k! \sim \sqrt{2 \pi k} (k/e)^k$.
+    Substituting this into \eqref{eq:final-calculation-lower-bound} and using that $k = \lflr \log \log y / \log 2 \rflr + O(1)$, we obtain
+    \begin{align*}
+        H(x, y, 2y) &\gg \frac{x}{(\log y)^2 (\log \log y)^{3/2}} \exp \left( \frac{1 + \log 2 + \log \log 2}{\log 2} \cdot \log \log y \right) \\ 
+        &\gg \frac{x}{(\log y)^\delta (\log \log y)^{3/2}},
+    \end{align*}
+    as desired.
+\end{proof}
+
+\subsection{Proof of the upper bound}
+In this section, we prove the upper bound for
+\begin{equation} \label{eq:sum-to-be-upper-bounded}
+    H(x, y, 2y) \ll \frac{x}{(\log y)^2} \sum \limits_{a \in \mcS(y)} \frac{L(a)}{a}.
+\end{equation}
+To this end, we split the sum according to $\omega(a)$. 
+Lemma \ref{lem:properties-of-L} (i) tells us that when $\omega(a) = k$, then 
+\begin{equation*}
+    L(a) \le \min\Set{\tau(a) \log 2,\, \log (2a)} \lessapprox \min \Set{2^k,\, \log y}.
+\end{equation*}
+So again, we expect a transition at the point where $2^k = \log y$, i.e., at 
+\begin{equation*}
+    k_0 = \lflr \frac{\log \log y}{\log 2} \rflr.
+\end{equation*}
+Define
+\begin{equation*}
+    S_k(y) = \sum \limits_{\substack{a \in \mcS(y)\\\omega(a) = k}} \frac{L(a)}{a}.
+\end{equation*}
+In light of \eqref{eq:sum-to-be-upper-bounded}, we want to show that 
+\begin{equation*}
+    \sum \limits_{k} S_k(y) \ll \frac{(\log y)^{2- \delta}}{(\log \log y)^{3/2}}
+\end{equation*}
+in order to complete the proof of Theorem \ref{thm:integers-with-a-divisor-in-y-2y}.
+When $|k - k_0|$ is relatively large, the simple bounds from Lemma \ref{lem:properties-of-L} (i) suffice to show that the contribution of $S_k(y)$ to \eqref{eq:sum-to-be-upper-bounded} is negligible. 
+The main contribution comes from integers with approximately $k_0$ prime factors.
+In this case, a more sophisticated analysis is necessary, bounding $S_k(y)$ in terms of a multivariate integral and using an estimate about uniform order statistics. 
+
+We start with the case where $|k - k_0|$ is large.
+\begin{lemma} \label{lem:bound-case-where-k-k0-is-large}
+    We have 
+    \begin{equation*}
+        \sum \limits_{k\colon \left|k - k_0\right| \ge k_0/2} S_k(y) \ll (\log y)^{3/2}.
+    \end{equation*}
+\end{lemma}
+
+This is much less than the alleged main term $(\log y)^{2 - \delta} / (\log \log y)^{3/2}$ (since \mbox{$\delta < 0.1$}).
+
+\begin{proof}
+    When $k \le k_0/2$, we can use the bound $L(a) \le 2^k$. 
+    Then 
+    \begin{equation*}
+        S_k(y) \le 2^k \sum \limits_{\substack{a \in \mcS(y) \\\omega(a) = k}} \frac{1}{a} \le \frac{2^k}{k!} \left( \sum \limits_{p \le y} \frac{1}{p} \right)^k \ll \frac{(2 \log \log y)^k}{k!}.
+    \end{equation*}
+    We have $2 \log \log y /k \ge 4 \log 2 > 2$, so
+    \begin{align*}
+        \sum \limits_{k \le k_0/2} S_k(y) &\ll \sum \limits_{k \le k_0/2} 2^{k - k_0} \frac{{(2 \log \log y)}^{k_0}}{k_0!} \\ 
+        &\ll 2^{-k_0/2} \frac{(\log y)^{2 - \delta}}{\sqrt{\log \log y}} \\
+        &\ll (\log y)^{3/2}.
+    \end{align*}
+    Here, the second inequality follows from Stirling's formula. 
+    For the last inequality, we used that $2^{-k_0/2} \le (\log y)^{-1/2}$ and $\delta > 0$.
+
+    When $k \ge \frac{3}{2}k_0$, we use the bound $L(a) \le \log 2a$.
+    We have
+    \begin{align*}
+        S_k(y) &\ll \sum\limits_{\substack{a \in \mcS(y) \\\omega(a) = k}} \frac{1}{a} \sum \limits_{p \mid a} \log p \\ 
+            &\le \left(\sum \limits_{p \le y} \frac{\log p}{p}\right) \left(\sum \limits_{\substack{b \in \mcS(y)\\ \omega(b) = k - 1}} \frac{1}{b} \right) \\ 
+            &\ll \log y \cdot \frac{(\log \log y + O(1))^{k - 1}}{(k - 1)!},
+    \end{align*}
+    where we used Mertens' first and second estimates in the last step.
+    Hence, 
+    \begin{equation*}
+        \sum \limits_{k \ge 3k_0 / 2} S_k(y) \ll (\log y) \sum \limits_{k \ge 3k_0/ 2} \frac{(\log \log y + O(1))^{k - 1}}{(k - 1)!}.
+    \end{equation*}
+    The sum decays at least geometrically.
+    Bounding it by its largest term and applying Stirling's formula as above, we obtain 
+    \begin{equation*}
+        \sum \limits_{k \ge 3/2 k_0} S_k(y) \ll (\log y)^{3/2},
+    \end{equation*}
+    as claimed.
+\end{proof}
+
+It remains to bound the contribution of integers with roughly $k_0$ prime divisors. 
+We could try the same argument as above, but this would only give a bound of $(\log y)^{2 - \delta} / (\log \log y)^{1/2}$, which is too large by a factor of $\log \log y$.
+The reason is that the bound $L(a) \le \min(\tau(a) \log 2, \log(2a))$ is only close to being sharp when the divisors of $a$ are evenly distributed on a logarithmic scale.
+
+To obtain the correct bound, one must bound $L(a)$ more carefully.
+One reason for the divisors of $a$ to cluster is when one of the prime factors of $a$ is significantly smaller than expected. 
+This is captured by the third bound in Lemma \ref{lem:properties-of-L}, which states that for $p_1 < \dots < p_k$,
+\begin{equation} \label{eq:recall-properties-of-L-3}
+    L(p_1 \cdots p_k) \le \min 2^{k-j} \cdot \log (2p_1 \cdots p_j).
+\end{equation}
+Define
+\begin{equation*}
+    F(\mbt) = \min \limits_{1 \le j \le k} 2^{-j} \left( 1 + 2^{t_1} + \dots + 2^{t_j} \right).
+\end{equation*}
+With this notation, \eqref{eq:recall-properties-of-L-3} translates to
+\begin{equation*}
+    L(p_1 \cdots p_k) \le 2^{k}\cdot F\left( \frac{\log \log p_1}{\log 2}, \dots, \frac{\log \log p_k}{\log 2} \right).
+\end{equation*}
+The definition of $F$ is motivated by the idea that looking at prime divisors on a log-log scale leads to the connection to uniform order statistics mentioned earlier.
+
+As a general principle, if $f: \mR \rightarrow \mR$ is some suitably nice function,
+we expect 
+\begin{equation*}
+    \sum \limits_{p \le y} \frac{f(\log \log p)}{p} \approx \int_{2}^y \frac{f(\log \log t)}{t} \frac{\mathrm d t}{\log t},
+\end{equation*}
+where the factor $1/\log t$ accounts for the density of the primes around $t$.
+Changing variables to $\xi = \log \log t / \log \log y$, this is
+\begin{equation*}
+    \approx \log \log y \int_0^1 f(\xi) \,\mathrm d \xi.
+\end{equation*}
+Applying this intuition $k$ times to $F$, we would expect that
+\begin{align*}
+    \sum \limits_{p_1 < p_2 < \dots < p_k \le y} & \frac{F\left( \frac{\log \log p_1}{\log 2}, \dots, \frac{\log \log p_k}{\log 2} \right)}{p_1 \cdots p_k} \\
+        & \approx\; (\log \log y)^k  \idotsint \limits_{0 \le \xi_1 \le \dots \le \xi_k\le 1} F(\xi_1 k_0, \dots, \xi_k k_0) \; \mathrm{d} \bm{\xi}.
+\end{align*}
+Unfortunately, $F$ is not a particularly nice function, so showing something like the above is not a straightforward matter of applying partial summation. 
+However, one can exploit the monotonicity of $F$ to give an upper bound of the same shape, which is what the next lemma achieves.
+
+\begin{lemma} \label{lem:approximate-sum-by-integral}
+    Suppose $\frac{k_0}{2} \le k \le 2k_0$. 
+    Then 
+    \begin{equation*}
+        S_k(y) \ll (2 \log \log y)^k \cdot U_k(k_0),
+    \end{equation*}
+    where 
+    \begin{equation*}
+        U_k(s) = \idotsint \limits_{0 \le \xi_1 \le \dots \le \xi_k\le 1} \min \limits_{0 \le j \le k} 2^{-j} \left( 1 + 2^{s\xi_1} + \dots + 2^{s \xi_j} \right) \; \mathrm{d} \bm{\xi}.
+    \end{equation*}
+\end{lemma}
+
+\begin{remark}
+    The quantity $U_k(s)$ has a natural interpretation in terms of uniform order statistics. 
+    Suppose $X_1, \dots, X_k$ are i.i.d. random variables, uniformly distributed on $[0, 1]$, and let $0 \le \xi_1 \le \dots \le \xi_k \le 1$ denote their order statistics.
+    Then 
+    \begin{equation*}
+        U_k(s) = \frac{1}{k!}\expn{\min \limits_{0 \le j \le k} 2^{-j}\left( 1 + 2^{s\xi_1} + \dots + 2^{s \xi_j} \right)}.
+    \end{equation*}
+    Typically, $\xi_j \approx j/(k + 1)$. 
+    When $s$ is close to $k$, we expect
+    \begin{equation*}
+        \min_{0 \le j \le k} 2^{-j}\left( 1 + 2^{s\xi_1} + \dots + 2^{s \xi_j} \right) \approx \min_{1 \le j \le k} 2^{s\xi_j - j}.
+    \end{equation*}
+    This is small when one of the $\xi_j$ is significantly smaller than expected, so $U_k(s)$ essentially measures how well-spread the $\xi_1, \dots, \xi_k$ are. 
+    This connects back to the discussion in Section \ref{subsec:heuristic} and \eqref{eq:heuristic-condition-on-order-statistics} specifically.
+\end{remark}
+
+Before turning to the proof of Lemma \ref{lem:approximate-sum-by-integral}, we record that
+\begin{equation} \label{eq:volume-of-ordering}
+    \Vol \set{\mathbf{x} \in \mR^k}{0 \le x_1 \le \dots \le x_k \le 1} = \frac{1}{k!}.
+\end{equation}
+This can be seen by noting that the regions corresponding to the $k!$ different orderings of $x_1, \dots, x_k$ partition the hypercube $[0, 1]^k$, and by symmetry, all these regions must have the same volume.
+%Alternatively, one can also compute the volume by just integrating directly.
+
+Similarly to the proof of Lemma \ref{lem:upper-bound-for-sum-over-W-a}, the idea is to localise prime factors.
+Recall the definition of $\lambda_i$ and $D_i$ from Section \ref{subsec:proof-of-lower-bound}: $D_i = (\lambda_{i - 1}, \lambda_i]$, where the $\lambda_i$ are defined inductively by $\lambda_0 = 3/2$ and, for $i \ge 1$, $\lambda_i$ is the largest prime such that 
+\begin{equation*}
+    \sum \limits_{\lambda_{i - 1} < p \le \lambda_i} \frac{1}{p} \le \log 2.
+\end{equation*}
+
+\begin{proof}[Proof of Lemma \ref{lem:approximate-sum-by-integral}]
+    Consider integers $a = p_1 \cdots p_k$ with $p_1 < \dots < p_k \le y$.
+    For $\ell \in [k]$, let $j_\ell$ be such that $p_\ell \in D_{j_\ell}$.
+    Recall that $p \in D_{j}$ implies that $\log p \le \log \lambda_{j} \le 2^{j + O(1)}$.
+    Therefore, Lemma \ref{lem:properties-of-L} (iii) gives
+    \begin{align*}
+        L(a) &\le 2^k \min \limits_{0 \le \ell \le k} 2^{-\ell} \log (2 p_1 \cdots p_\ell) \\
+            &\ll 2^k \min \limits_{0 \le \ell \le k} 2^{-\ell} \left(1 + 2^{j_1} + \dots + 2^{j_\ell} \right) \\
+            &= 2^k \cdot F(j_1, \dots, j_k).
+    \end{align*}
+    Next, we have $\log \log p_\ell = (\log 2) j_\ell + O(1)$. 
+    Since also $p_\ell \le y$, we can bound $j_\ell \le K$, where
+    \begin{equation*}
+        K = k_0 + O(1) = \lflr \frac{\log \log y}{\log 2} \rflr + O(1).
+    \end{equation*}
+    Hence, 
+    \begin{equation*}
+        S_k(y) \;=\; \sum \limits_{\substack{a \in \mcS(y) \\ \omega(a) = k}} \frac{L(a)}{a} 
+            \;\ll\; 2^k \sum \limits_{1 \le j_1 \le \dots \le j_k \le K} F(\mbj) \sum \limits_{\substack{p_1 < \dots < p_k \\ p_\ell \in D_{j_\ell} \; \forall \ell \in [k]}} \frac{1}{p_1 \cdots p_k}.
+    \end{equation*}
+    Now consider the contribution of the innermost sum for a fixed vector $\mbj = (j_1, \dots, j_k)$ with $1 \le j_1 \le \dots \le j_k \le K$.
+    Write $b_m$ for the number of primes in $D_m$ ($1 \le m \le K$), that is, $b_m$ is the number of entries $j_\ell$ of $\mbj$ with $j_\ell = m$.
+    Then $b_1 + \dots + b_K = k$, and we have
+    \begin{equation*}
+        \sum \limits_{\substack{p_1 < \dots < p_k \\ p_\ell \in D_{j_\ell} \; \forall \ell \in [k]}} \frac{1}{p_1 \cdots p_k} 
+            \;\le\; \prod_{m = 1}^K \frac{1}{b_m!} \left(  \sum \limits_{p \in D_m} \frac{1}{p} \right)^{b_m} 
+            \;\le \; \prod\limits_{m = 1}^K \frac{(\log 2)^{b_m}}{b_m!} 
+            \; = \; \frac{(\log 2)^k}{b_1! \cdots b_K!}.
+    \end{equation*}
+    By \eqref{eq:volume-of-ordering}, we can write 
+    \begin{equation*}
+        \frac{(\log 2)^k}{b_1! \cdots b_K!} \;=\; (\log 2)^k \prod\limits_{m = 1}^K\;\; \idotsint \limits_{m - 1 \le t_1 \le \dots \le t_{b_m} \le m} 1\, \mathrm{d} \mbt \;=\; (\log 2)^k \int_{R(\mbj)} 1\, \mathrm d \mbt,
+    \end{equation*}
+    where 
+    \begin{equation*}
+        R(\mbj) = \set{\mbt \in \mR^{k}}{m - 1 \le t_{B_{m - 1} + 1} \le \dots \le t_{B_m} \le m \quad \forall m \in [K]}
+    \end{equation*}
+    and $B_m = b_1 + \dots + b_m$.
+    Putting everything together, we arrive at
+    \begin{equation*}
+        S_k(y) \ll (2 \log 2)^k \sum \limits_{1 \le j_1 \le \dots \le j_k \le K} F(\mbj) \int_{R(\mbj)} 1\, \mathrm d \mbt.
+    \end{equation*}
+    We now allow $F$ to take values in $\mR^k_{\ge 0}$.
+    Clearly, if $t_\ell \in [j_\ell - 1, j_\ell]$ for all $1 \le \ell \le k$, then $F(j_1, \dots, j_k) \le 2 F(t_1, \dots, t_k)$.
+    Thus, 
+    \begin{align*}
+        S_k(y) &\ll (2 \log 2)^k \sum \limits_{1 \le j_1 \le \dots \le j_k \le K}  \int_{R(\mbj)} F(\mbt)\, \mathrm d \mbt\\
+            &\le (2 \log 2)^k \idotsint\limits_{0 \le t_1 \le \dots \le t_k \le K} F(\mbt)\, \mathrm{d} \mbt.
+    \end{align*}
+    Changing variables to $\xi_i = t_i / K$, we conclude that
+    \begin{align*}
+        S_k(y) &\ll (2 \log 2)^k K^k \idotsint\limits_{0 \le \xi_1 \le \dots \le \xi_k \le 1} F(K \xi_1, \dots, K\xi_k) \, \mathrm{d} \bm{\xi} \\
+            &\ll ((2 \log 2) k_0 + O(1))^k  \cdot U_k(k_0) %\idotsint\limits_{0 \le \xi_1 \le \dots \le \xi_k \le 1} F(K \xi_1, \dots, K\xi_k) \, \mathrm{d} \bm{\xi}
+    \end{align*}
+    Finally, $((2 \log 2) k_0 + O(1))^k \ll (2 \log \log y)^k$ since $k \le 2k_0$. 
+    This concludes the proof.
+\end{proof}
+
+To conclude the proof of the upper bound, we now need to estimate 
+\begin{equation*}
+    U_k(s) =\idotsint \limits_{0 \le \xi_1 \le \dots \le \xi_k\le 1} \min \limits_{0 \le j \le k} 2^{-j} \left( 1 + 2^{s\xi_1} + \dots + 2^{s \xi_j} \right) \; \mathrm{d} \bm{\xi}.
+\end{equation*} 
+The region of integration in $U_k(s)$ has volume $1/k!$, and the integrand is always $\ll \min (1, k 2^{s-k})$ (since we can always take $j = 0$ or $j=k$ in the definition of $U_k(s)$).
+Therefore, we have the trivial bound
+\begin{equation*}
+    U_k(s) \ll \frac{\min (1, k\cdot2^{s - k})}{k!} \ll \frac{1}{(k - 1)! (2^{k - s} + 1)}. 
+\end{equation*}
+Typically (e.g., when $\xi_\ell \approx \ell/(k + 1)$), the integrand should only be roughly $\ll \min(1, 2^{s - k})$,
+so we would perhaps expect to obtain a bound like
+\begin{equation*}
+    U_k(s) \lessapprox \frac{1}{k!(2^{k - s} + 1)}.
+\end{equation*}
+The following lemma improves upon this by another factor of $1/(k + 1)$, at least when $|s - k|$ is not too large.
+This will be crucial in obtaining the correct exponent for the $\log \log y$ term in the upper bound for $H(x, y, 2y)$.
+\begin{lemma}[{\cite[Lemma 3.6]{integerswithadivisor}}]
+    \label{lem:estimate-U-k-s}
+    Uniformly for $0 \le k \le 10 s$, we have
+    \begin{equation*}
+        U_k(s) \ll \frac{1 + |s - k|^2}{(k + 1)!( 2^{k - s} + 1)}.
+    \end{equation*}
+\end{lemma}
+
+The proof of Lemma \ref{lem:estimate-U-k-s} is technically involved, and we refer the reader to \cite{integerswithadivisor} for details.
+However, assuming the lemma, the proof of the upper bound is straightforward. 
+\begin{proof}[Proof of Theorem \ref{thm:integers-with-a-divisor-in-y-2y}, upper bound]
+    We start by bounding the contribution of $k \ge k_0$. Observe that in this case,
+    \begin{equation*}
+        k \ge \lflr\frac{\log \log y}{\log 2} \rflr \ge \frac{4}{3} \log \log y.
+    \end{equation*}
+    Therefore, combining Lemmas \ref{lem:approximate-sum-by-integral} and \ref{lem:estimate-U-k-s}, we have
+    \begin{align*}
+        \sum \limits_{k_0 \le k \le 2k_0} S_k(y) &\ll \sum \limits_{k_0 \le k \le 2k_0} (2 \log \log y)^k U_k (k_0) \\
+        &\ll \sum \limits_{k_0 \le k \le 2k_0} (2\log \log y)^k \frac{1 + (k - k_0)^2}{(k + 1)! (2^{k - k_0} + 1)} \\ 
+        &\ll 2^{k_0} \frac{(\log \log y)^{k_0}}{(k_0 + 1)!} \sum \limits_{k_0 \le k \le 2k_0} \left(1 + (k - k_0)^2 \right) \frac{(k_0 + 1)!(\log \log y)^{k-k_0}}{(k + 1)!} \\
+        & \ll 2^{k_0} \frac{(\log \log y)^{k_0}}{(k_0 + 1)!} \sum \limits_{m \ge 0} \frac{1 + m^2}{\left( \frac{4}{3} \right)^m}.
+    \end{align*}
+    The sum over $m$ in the last line is clearly $O(1)$.
+    We conclude that
+    \begin{align*}
+        \sum \limits_{k_0 \le k \le 2k_0} S_k(y) &\ll \frac{(2 \log \log y)^{k_0}}{(k_0 + 1)!} \ll \frac{(\log y)^{2 - \delta}}{(\log \log y)^{3/2}},
+    \end{align*}
+    where the last inequality follows from Stirling's formula.
+
+    A similar argument gives that
+    \begin{equation*}
+        \sum \limits_{k_0/2 \le k \le k_0} S_k(y) \ll\frac{(\log y)^{2 - \delta}}{(\log \log y)^{3/2}}.
+    \end{equation*}
+
+    We have already proven in Lemma \ref{lem:bound-case-where-k-k0-is-large} that the contribution of $\left|k - k_0\right| \ge k_0 / 2$ is $\ll (\log y)^{3/2}$, which is negligible compared to the main term. 
+    Therefore, the proof of the upper bound is complete.
+\end{proof}

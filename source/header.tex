@@ -1,0 +1,156 @@
+%- Package imports --------------------------------------------------------------------------------------------------------------------------------------
+
+\usepackage[british]{babel}
+\usepackage{amsmath} 
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{csquotes}
+\usepackage{graphicx} % Necessary to insert images
+\usepackage{float} % Image positioning
+\usepackage{caption}
+\usepackage{enumitem} 
+\usepackage{bm} % For the \bm command
+\usepackage{bbm}
+\usepackage{setspace} % For line spacing etc.
+\usepackage{doi} % Displays DOI references as links
+
+\usepackage[a4paper, left=30mm, right=30mm, top=32mm, bottom=32mm]{geometry}
+
+\usepackage{fancyhdr}  
+\fancyhf{} % Clear preset header and footer settings
+\renewcommand\headrulewidth{0pt} % Do not display a line between header and content
+\fancyfoot[CO, CE]{\thepage} % Display page number at the bottom center of each page
+\pagestyle{fancy}
+
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{abstractframe}[1][]{
+    enhanced,
+    arc=0pt,
+    outer arc=0pt,
+    colback=white,
+    boxrule=0.8pt,
+    #1
+}
+
+%- Bibliography management ------------------------------------------------------------------------------------------------------------------------------
+\usepackage[
+    style=alphabetic, 
+    backend=biber,
+    maxbibnames=9
+]{biblatex}
+
+
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{\printtext{\bibstring{in}\intitlepunct}}}
+  
+\DeclareFieldFormat[article,periodical]{volume}{\mkbibbold{#1}} % Displays the volume of a journal bold
+\DeclareFieldFormat[inproceedings]{number}{\mkbibbold{#1}} % Displays the volume of proceedings bold
+\DeclareFieldFormat{url}{Available at\addcolon\space\url{#1}} % Use "Available at: " as prefix for URLs
+
+\DefineBibliographyExtras{british}{\def\finalandcomma{\addcomma}} % Enable Oxford comma
+
+\DeclareSourcemap{ % Always use full journal name
+  \maps[datatype=bibtex]{
+    \map[overwrite=true]{
+      \step[fieldsource=fjournal]
+      \step[fieldset=journal, origfieldval]
+    }
+  }
+}
+
+\setlist[enumerate, 1]{label={(\roman*)}, font=\normalfont}
+
+%- Styles -----------------------------------------------------------------------------------------------------------------------------------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{question}[definition]{Question}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{observation}[definition]{Observation}
+\newtheorem*{claim*}{Claim}
+\newtheorem{conjecture}[definition]{Conjecture}
+
+% \renewcommand{\labelenumi}{\rm{(\roman{enumi})}}
+
+\numberwithin{equation}{section}
+
+%- Custom math operators --------------------------------------------------------------------------------------------------------------------------------
+\newcommand{\mN}{\mathbb{N}}
+\newcommand{\mZ}{\mathbb{Z}}
+\newcommand{\mQ}{\mathbb{Q}}
+\newcommand{\mR}{\mathbb{R}}
+\newcommand{\mC}{\mathbb{C}}
+\newcommand{\mP}{\mathbb{P}}
+\newcommand{\mE}{\mathbb{E}}
+
+\newcommand{\mcA}{\mathscr{A}}
+\newcommand{\mcB}{\mathscr{B}}
+\newcommand{\mcL}{\mathscr{L}}
+\newcommand{\mcP}{\mathscr{P}}
+\newcommand{\mcS}{\mathscr{S}}
+
+\newcommand{\mbb}{\mathbf{b}}
+\newcommand{\mbj}{\mathbf{j}}
+\newcommand{\mbt}{\mathbf{t}}
+\newcommand{\mbx}{\mathbf{x}}
+\newcommand{\mby}{\mathbf{y}}
+
+\newcommand{\eps}{\varepsilon}
+
+\newcommand{\prob}[1]{\mathbb{P}\left[#1\right]}
+\newcommand{\cprob}[2]{\prob{#1 \;\middle|\; #2}}
+\newcommand{\sprob}[2]{\mathbb{P}_{#1} \left[#2\right]}
+
+\newcommand{\expn}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\cexpn}[2]{\expn{#1 \;\middle|\; #2}}
+\newcommand{\sexpn}[2]{\mathbb{E}_{#1} \left[#2\right]}
+
+\newcommand{\Var}[1]{\mathrm{Var}\left[#1\right]}
+\newcommand{\ind}[1]{\mathbbm{1}_{#1}}
+
+\def\lflr{\left\lfloor}
+\def\rflr{\right\rfloor}
+\def\lcl{\left\lceil}
+\def\rcl{\right\rceil}
+\def\meas{\mathrm{meas}}
+\def\Vol{\mathrm{Vol}}
+
+\def\sm{\setminus}
+\newcommand{\Set}[1]{\left\{#1\right\}}
+\newcommand{\set}[2]{\left\{#1\,:\;#2\right\}}
+\def\In{\subseteq}
+
+
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\vspan}{span}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\lcm}{lcm}
+
+% \newcommand{\Ex}{\mathbb{E}}
+% \renewcommand{\Pr}{\mathbb{P}}
+\renewcommand{\Re}{\mathrm{Re}}
+
+\newcommand{\defn}[1]{\textit{#1}}
+
+%- Images ------------------------------------------------------------------------------------------------------------------------------------------------
+\graphicspath{ {./images/} }
+
+% hyperref seems to be implicitly loaded by biblatex
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue
+}

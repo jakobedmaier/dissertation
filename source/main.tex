@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+
+\input{header.tex}
+
+\addbibresource{ressources.bib}
+
+\title{The Multiplication\\[0.5em] Table Problem}
+\date{Trinity 2026}
+
+\def\theprogramme{MSc in Mathematical Sciences}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\include{titlepage}
+\tableofcontents 
+\newpage
+
+\pagenumbering{arabic}
+\include{sections/introduction}
+\include{sections/anatomy_of_integers}
+\include{sections/multiplication_table_problem}
+\include{sections/conclusion}
+
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\printbibliography
+
+\end{document}

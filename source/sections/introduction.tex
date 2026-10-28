@@ -1,0 +1,117 @@
+\section{Introduction}
+
+In 1955, Paul Erd\H{o}s \cite{someremarksonnumbertheory} posed the problem of estimating the number of distinct entries in an $N$-by-$N$ multiplication table. 
+More precisely, letting 
+\begin{equation*}
+    M(N) = \#\set{ab}{1 \le a, b \le N}
+\end{equation*}
+denote the number of integers that can be written as the product of two integers up to $N$, what can be said about the growth rate of $M(N)$ as $N \rightarrow \infty$?
+The statement of the problem is deceptively simple; yet it is not known whether there exists an asymptotic formula for $M(N)$.
+
+\begin{figure}[h]
+    \centering
+    \begin{tabular}{c|cccccccc}
+        & \textcolor{orange}{1} & \textcolor{orange}{2} & \textcolor{orange}{3} & \textcolor{orange}{4} & \textcolor{orange}{5} & \textcolor{orange}{6} & \textcolor{orange}{7} & \textcolor{orange}{\dots} \\ \hline
+        \textcolor{orange}{1} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & \dots \\ 
+        \textcolor{orange}{2} & 2 & 4 & 6 & 8 & 10 & 12 & 14 & \dots \\ 
+        \textcolor{orange}{3} & 3 & 6 & 9 & 12 & 15 & 18 & 21 & \dots \\ 
+        \textcolor{orange}{4} & 4 & 8 & 12 & 16 & 20 & 24 & 28 & \dots \\ 
+        \textcolor{orange}{5} & 5 & 10 & 15 & 20 & 25 & 30 & 35 & \dots \\ 
+        \textcolor{orange}{6} & 6 & 12 & 18 & 24 & 30 & 36 & 42 & \dots \\ 
+        \textcolor{orange}{7} & 7 & 14 & 21 & 28 & 35 & 42 & 49 & \dots \\ 
+        \textcolor{orange}{$\vdots$} & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ \\
+    \end{tabular}
+    \caption{The first entries of the multiplication table}
+    \label{table:multiplication-table}
+\end{figure}
+
+Trivially, $N \le M(N) \le N(N + 1)/2$. 
+Paul Erd\H{o}s showed that $M(N) = N^{2 - o(1)}$, see \cite{someremarksonnumbertheory} (in Hebrew) and \cite{anasymptoticinequality} (in Russian).
+Further progress was made by Gérald Tenenbaum \cite{tenenbaumsurlaprobabilite} (in French).
+However, the problem of determining the correct order of magnitude remained open for more than 50 years and was only solved in 2008 by Kevin Ford \cite{thedistributionofintegers, integerswithadivisor}.
+He established the following theorem.
+
+\begin{theorem}[{\cite[Corollary 3]{thedistributionofintegers}}] \label{thm:multiplication-table-problem}
+    We have
+    \begin{equation*}
+        M(N) \asymp \frac{N^2}{(\log N)^\delta (\log \log N)^{3/2}},
+    \end{equation*}
+    where 
+    \begin{equation*}
+        \delta = 1 - \frac{1 + \log \log 2}{\log 2} \approx 0.086071.
+    \end{equation*}
+\end{theorem}
+
+The goal of this dissertation is to give an exposition of Ford's work leading to the above result. 
+In Chapter 2, we start by developing some general theory of the factorisation properties of ``typical'' integers that is relevant to the problem. 
+This includes their number of prime divisors and the distribution thereof. 
+Furthermore, we present some simple estimates for the multiplication table problem dating back to Erd\H{o}s.
+After that, we give a detailed account of the proof of Theorem \ref{thm:multiplication-table-problem} in Chapter 3.
+The main device to study $M(N)$ is the quantity $H(x, y, 2y)$, the number of integers up to $x$ with a divisor in $(y, 2y]$.
+Ford's work reveals a deep connection between $H(x, y, 2y)$ and the distribution of prime divisors on a log-log scale, and much of Chapter 3 is concerned with studying that connection.
+
+\paragraph{Notation.}
+We denote by $\mN$ the set of natural numbers $\Set{1, 2, \dots}$, and by $[N]$ the set of integers $\Set{1, \dots, N}$.
+The letter $p$ (as well as $p_i, p'$, and other variations) always denotes a prime number. 
+% For example, $\sum_{p \le y}$ means that the summation is over all primes up to $y$.
+The notation $p^\nu\parallel n$, for $\nu \in \mN$, means that $p^\nu \mid n$, but $p^{\nu + 1} \nmid n$. 
+Letters in boldface (e.g. $\mbx, \mby$) always denote vector quantities.
+
+The number of primes up to $x$ is denoted by $\pi(x)$.
+For any natural number $n$, $P^-(n)$ and $P^+(n)$ denote the smallest, resp. largest, prime factor of $n$. 
+We use the notational conventions $P^-(1) = \infty$ and $P^+(1) = 0$.
+The number of distinct prime factors of $n$ is denoted by $\omega(n)$, and the number of divisors by $\tau(n)$. 
+% Similarly, $\tau(n, y, z)$ is the number of divisors of $n$ in the interval $(y, z]$.
+
+All logarithms are taken to the base $e$.
+The notation $\log_k x$ is used to mean a $k$-fold iterated logarithm rather than a logarithm to the base $k$.
+We will make frequent use of standard asymptotic notation as introduced in C3.8 Analytic Number Theory.
+
+\paragraph{Preliminaries.}
+We record a few standard results that will be used throughout the dissertation, starting with Stirling's formula:
+\begin{equation*}
+    n! \sim \sqrt{2 \pi n} \left( \frac{n}{e} \right)^n \quad \text{ as } n \rightarrow \infty.
+\end{equation*}
+A proof can be found in \cite[Pages 52--53]{feller}, for example.
+
+We will make repeated use of the prime number theorem (PNT) in the form 
+\begin{equation*}
+    \pi(x) \sim \frac{x}{\log x} \quad \text{ as } x \rightarrow \infty.
+\end{equation*}
+We will also need a version of Mertens' first and second estimates with strong error terms. 
+These can be deduced from the PNT with its classical de la Vallée-Poussin error term (as stated and proved in C3.8 Analytic Number Theory).
+
+\begin{theorem} \label{thm:mertens-with-strong-error-terms}
+    We have
+    \begin{equation} \label{eq:mertens-first}
+        \sum \limits_{p \le x} \frac{\log p}{p} = \log x + c_1 + O (e^{-c_0 \sqrt{\log x}})
+    \end{equation}
+    and 
+    \begin{equation} \label{eq:mertens-second}
+        \sum \limits_{p \le x} \frac{1}{p} = \log \log x + c_3 + O (e^{-c_2 \sqrt{\log x}}),
+    \end{equation}
+    for some absolute constants $c_0, c_1, c_2, c_3$.
+\end{theorem}
+As for Mertens' third estimate, the simple version 
+\begin{equation*}
+    \prod \limits_{p \le x} \left(1 - \frac{1}{p} \right) \asymp \frac{1}{\log x}
+\end{equation*}
+will be sufficient for our purposes.
+
+Lastly, we will use the following general estimate, which is due to Halberstam and Richert (cf. \cite[Theorem 0.1]{divisors}).
+\begin{theorem} \label{thm:halberstam-richert}
+    Let $f: \mN \rightarrow \mR$ be a nonnegative multiplicative function.
+    Suppose that there exist some $A$ and $B$ such that, for $x \ge 1$,
+    \begin{align*}
+        \sum \limits_{p \le x} f(p) \log p &\le Ax
+    \end{align*}
+    and
+    \begin{align*}
+        \sum \limits_{p} \sum \limits_{\nu \ge 2} \frac{f(p^\nu)}{p^\nu} \log (p^\nu) &\le B.
+    \end{align*}
+    Then, for all $x > 1$ one has
+    \begin{equation*}
+        \sum \limits_{n \le x} f(n) \ll_{A, B} \frac{x}{\log x} \sum \limits_{n \le x} \frac{f(n)}{n}.
+    \end{equation*}
+\end{theorem}
+A proof is sketched in \cite[Exercise 00]{divisors}.

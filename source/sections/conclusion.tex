@@ -1,0 +1,14 @@
+\section{Further remarks}
+    \label{sec:further-remarks}
+
+It is not known whether the ratio of $M(N)$ and $N^2(\log N)^{-\delta} (\log \log N)^{-3/2}$ tends to a limit as $N \rightarrow \infty$, and it remains an open problem to find a true asymptotic formula for $M(N)$.
+Computational experiments were conducted, among others, by Brent et al. \cite{algorithmsforthemtp}, but the slow growth of the function $(\log N)^\delta (\log \log N)^{3/2}$ makes it challenging to extract numerical evidence for whether an asymptotic formula exists.
+
+Apart from the classical multiplication table problem, several generalisations have been considered in the literature. 
+Notably, Koukoulopoulos \cite{localizedfactorizationsofintegers} adapted Ford's arguments to determine the order of magnitude of a $(k + 1)$-dimensional multiplication table, that is, the number of integers that can be written as a product of $k + 1$ integers $\le N$.
+The analysis is based on a higher-dimensional analogue of $H(x, y, 2y)$.
+
+Another possible generalisation is the \defn{restricted} multiplication table problem:
+Given an infinite subset $\mathcal A \In \mN$, how many distinct elements of $\mathcal A$ can be written as a product of two integers $\le N$?
+This corresponds to studying the quantity $H(x, y, z, \mathcal A)$, the number of integers $n \in \mathcal A \cap[1, x]$ that have a divisor in $(y, z]$.
+In the special case where $\mathcal A = \set {p + b}{p \text{ prime}}$ for some $b \ne 0$, the order of magnitude was determined by Ford \cite{thedistributionofintegers} and Koukoulopoulos \cite{divisorsofshiftedprimes}.
